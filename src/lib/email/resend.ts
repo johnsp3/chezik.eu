@@ -21,7 +21,7 @@ export async function sendContactConfirmation(
     const emailTemplate = generateContactConfirmationEmail(data);
 
     const result = await resend.emails.send({
-      from: FROM_EMAIL,
+      from: `John Chezik <${FROM_EMAIL}>`,
       to: [data.email],
       subject: emailTemplate.subject,
       html: emailTemplate.html,
@@ -65,7 +65,7 @@ export async function sendContactNotification(
     const emailTemplate = generateContactNotificationEmail(data);
 
     const result = await resend.emails.send({
-      from: FROM_EMAIL,
+      from: `John Chezik <${FROM_EMAIL}>`,
       to: [CONTACT_EMAIL],
       subject: emailTemplate.subject,
       html: emailTemplate.html,
@@ -110,7 +110,7 @@ export async function sendNewsletterWelcome(
     const emailTemplate = generateNewsletterWelcomeEmail(data);
 
     const result = await resend.emails.send({
-      from: FROM_EMAIL,
+      from: `John Chezik <${FROM_EMAIL}>`,
       to: [data.email],
       subject: emailTemplate.subject,
       html: emailTemplate.html,
@@ -161,7 +161,7 @@ export async function sendNewsletterNotification(
     const text = `New Newsletter Subscription\nEmail: ${data.email}\nSource: ${data.source || "Website"}\nTimestamp: ${new Date().toLocaleString()}`;
 
     const result = await resend.emails.send({
-      from: FROM_EMAIL,
+      from: `John Chezik <${FROM_EMAIL}>`,
       to: [CONTACT_EMAIL],
       subject,
       html,
