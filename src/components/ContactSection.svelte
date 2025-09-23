@@ -93,8 +93,7 @@
 			<h2 class="section-title">Professional Contact</h2>
 			
 			<p class="section-description">
-				For professional inquiries, media requests, or business-related matters, 
-				please reach out using the contact information provided below.
+				For professional inquiries, media requests, or business-related matters.
 			</p>
 		</div>
 		
@@ -117,30 +116,86 @@
 					</div>
 				</div>
 				
-				<!-- Contact Methods -->
-				<div class="contact-methods-section">
-					<h4 class="contact-section-title">Get In Touch</h4>
-					<p class="contact-section-description">
-						For professional inquiries, media interviews, licensing opportunities, 
-						or other business matters.
-					</p>
-					
-					<div class="contact-methods">
-						{#each contactInfo as info, index}
-							<div 
-								class="contact-method"
-								style="--delay: {index * 100}ms"
-							>
-								<div class="method-icon {info.color}">
-									<svelte:component this={info.icon} size={20} />
-								</div>
-								<div class="method-content">
-									<div class="method-title">{info.title}</div>
-									<div class="method-value">{info.value}</div>
-								</div>
-							</div>
-						{/each}
+				<!-- Contact Form -->
+				<div class="contact-form-section">
+					<div class="form-header">
+						<h3 class="form-title">Send a Message</h3>
+						<p class="form-description">
+							For professional inquiries
+						</p>
 					</div>
+					
+					<form on:submit={handleSubmit} class="contact-form">
+						<div class="form-group">
+							<label for="name" class="form-label">Name *</label>
+							<input
+								id="name"
+								type="text"
+								class="form-input"
+								placeholder="Your full name"
+								bind:value={form.name}
+								required
+								disabled={isSubmitting}
+							/>
+						</div>
+						
+						<div class="form-group">
+							<label for="email" class="form-label">Email *</label>
+							<input
+								id="email"
+								type="email"
+								class="form-input"
+								placeholder="your.email@example.com"
+								bind:value={form.email}
+								required
+								disabled={isSubmitting}
+							/>
+						</div>
+						
+						<div class="form-group">
+							<label for="subject" class="form-label">Subject</label>
+							<input
+								id="subject"
+								type="text"
+								class="form-input"
+								placeholder="What's this about?"
+								bind:value={form.subject}
+								disabled={isSubmitting}
+							/>
+						</div>
+						
+						<div class="form-group">
+							<label for="message" class="form-label">Message *</label>
+							<textarea
+								id="message"
+								class="form-textarea"
+								placeholder="Tell me about your project, question, or collaboration idea..."
+								bind:value={form.message}
+								required
+								disabled={isSubmitting}
+							></textarea>
+						</div>
+						
+						{#if submitStatus}
+							<div class="submit-status {submitStatus.includes('Thank you') ? 'success' : 'error'}">
+								{submitStatus}
+							</div>
+						{/if}
+						
+						<button
+							type="submit"
+							class="btn btn-primary btn-large"
+							disabled={isSubmitting}
+						>
+							{#if isSubmitting}
+								<div class="spinner"></div>
+								Sending...
+							{:else}
+								<Send size={18} />
+								Send Message
+							{/if}
+						</button>
+					</form>
 				</div>
 			</div>
 			
@@ -159,6 +214,31 @@
 							description="Explore 6 albums and 2 books from a platinum-selling songwriter-singer and author"
 							hashtags="JohnChezik,Music,Rock,Books,Artist"
 						/>
+					</div>
+				</div>
+				
+				<!-- Contact Methods -->
+				<div class="contact-methods-section">
+					<h4 class="contact-section-title">Direct Contact</h4>
+					<p class="contact-section-description">
+						For professional inquiries
+					</p>
+					
+					<div class="contact-methods">
+						{#each contactInfo as info, index}
+							<div 
+								class="contact-method"
+								style="--delay: {index * 100}ms"
+							>
+								<div class="method-icon {info.color}">
+									<svelte:component this={info.icon} size={20} />
+								</div>
+								<div class="method-content">
+									<div class="method-title">{info.title}</div>
+									<div class="method-value">{info.value}</div>
+								</div>
+							</div>
+						{/each}
 					</div>
 				</div>
 			</div>
@@ -236,6 +316,7 @@
 		gap: var(--space-4xl);
 		opacity: 0;
 		transition: opacity 1s ease-out 0.3s;
+		align-items: start;
 	}
 	
 	.contact-content.mounted {
@@ -246,6 +327,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-2xl);
+		height: 100%;
 	}
 	
 	.photo-bio-section {
@@ -320,6 +402,21 @@
 		font-size: var(--text-base);
 		color: var(--color-text-secondary);
 		line-height: 1.5;
+	}
+	
+	.contact-form-section {
+		background: var(--glass-bg);
+		border: 1px solid var(--glass-border);
+		border-radius: var(--radius-xl);
+		padding: var(--space-xl);
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
+	}
+	
+	.contact-form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-lg);
 	}
 	
 	.form-header {
@@ -432,7 +529,7 @@
 		background: var(--glass-bg);
 		border: 1px solid var(--glass-border);
 		border-radius: var(--radius-xl);
-		padding: var(--space-xl);
+		padding: var(--space-lg);
 		backdrop-filter: blur(20px);
 		-webkit-backdrop-filter: blur(20px);
 	}
@@ -454,19 +551,17 @@
 	.contact-methods {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-md);
+		gap: var(--space-sm);
 	}
 	
 	.contact-method {
 		display: flex;
 		align-items: center;
-		gap: var(--space-md);
-		padding: var(--space-lg);
-		background: var(--glass-bg);
+		gap: var(--space-sm);
+		padding: var(--space-md);
+		background: var(--color-bg-secondary);
 		border: 1px solid var(--glass-border);
-		border-radius: var(--radius-lg);
-		backdrop-filter: blur(20px);
-		-webkit-backdrop-filter: blur(20px);
+		border-radius: var(--radius-md);
 		text-decoration: none;
 		color: inherit;
 		transition: all var(--transition-normal);
@@ -518,6 +613,8 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-xl);
+		height: 100%;
+		justify-content: space-between;
 	}
 	
 	.social-sharing {

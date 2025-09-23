@@ -1,17 +1,16 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-
-// In a real application, you would integrate with:
-// - Mailchimp API
-// - ConvertKit API
-// - Substack API
-// - Custom newsletter service
+import {
+  sendNewsletterWelcome,
+  sendNewsletterNotification,
+} from "$lib/email/resend.js";
+import type { NewsletterSignupData } from "$lib/email/types.js";
 
 export const POST: RequestHandler = async ({ request }) => {
   try {
-    const data = await request.json();
+    const data: NewsletterSignupData = await request.json();
 
-    // Basic validation
+    // Enhanced validation
     if (!data.email) {
       return json({ error: "Email address is required" }, { status: 400 });
     }
@@ -25,30 +24,49 @@ export const POST: RequestHandler = async ({ request }) => {
       );
     }
 
+    // Email length validation
+    if (data.email.length > 254) {
+      return json({ error: "Email address is too long" }, { status: 400 });
+    }
+
     // Rate limiting check
     const clientIP = request.headers.get("x-forwarded-for") || "unknown";
 
-    // Simulate newsletter subscription
+    // Log the subscription
     console.log("Newsletter subscription:", {
       email: data.email,
       timestamp: new Date().toISOString(),
       ip: clientIP,
-      source: "website",
+      source: data.source || "website",
     });
 
-    // In a real app, you would subscribe the user to your newsletter service:
-    // await subscribeToNewsletter({
-    //   email: data.email,
-    //   tags: ['website-signup'],
-    //   source: 'chezik.eu'
-    // });
+    // Send emails using Resend
+    const [welcomeResult, notificationResult] = await Promise.allSettled([
+      sendNewsletterWelcome(data),
+      sendNewsletterNotification(data),
+    ]);
 
-    // Send welcome email:
-    // await sendWelcomeEmail(data.email);
+    // Check if both emails were sent successfully
+    const welcomeSuccess =
+      welcomeResult.status === "fulfilled" && welcomeResult.value.success;
+    const notificationSuccess =
+      notificationResult.status === "fulfilled" &&
+      notificationResult.value.success;
 
+    if (!welcomeSuccess) {
+      console.error("Failed to send welcome email:", welcomeResult);
+    }
+
+    if (!notificationSuccess) {
+      console.error("Failed to send notification email:", notificationResult);
+    }
+
+    // Return success even if one email fails (graceful degradation)
     return json({
       success: true,
-      message: "Thanks for subscribing.",
+      message:
+        "Thanks for subscribing! You should receive a welcome email shortly.",
+      emailSent: welcomeSuccess,
     });
   } catch (error) {
     console.error("Newsletter subscription error:", error);
@@ -58,35 +76,3 @@ export const POST: RequestHandler = async ({ request }) => {
     );
   }
 };
-
-// Helper function for newsletter service integration (example)
-async function subscribeToNewsletter(data: {
-  email: string;
-  tags: string[];
-  source: string;
-}) {
-  // Example Mailchimp integration:
-  // const response = await fetch(`https://us1.api.mailchimp.com/3.0/lists/${LIST_ID}/members`, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Authorization': `Bearer ${MAILCHIMP_API_KEY}`,
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify({
-  //     email_address: data.email,
-  //     status: 'subscribed',
-  //     tags: data.tags,
-  //     merge_fields: {
-  //       SOURCE: data.source
-  //     }
-  //   })
-  // });
-
-  console.log("Newsletter service integration placeholder");
-}
-
-// Helper function to send welcome email
-async function sendWelcomeEmail(email: string) {
-  // Send welcome email with latest content, exclusive updates, etc.
-  console.log(`Welcome email sent to ${email}`);
-}

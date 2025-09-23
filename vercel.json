@@ -2,6 +2,11 @@
   "buildCommand": "npm run build",
   "outputDirectory": "build",
   "framework": "sveltekit",
+  "env": {
+    "RESEND_API_KEY": "re_ATnzc1qj_FeEQaa9GLbjTPK2JXtf9FpgS",
+    "CONTACT_EMAIL": "media@chezik.eu",
+    "FROM_EMAIL": "media@chezik.eu"
+  },
   "headers": [
     {
       "source": "/(.*)",
