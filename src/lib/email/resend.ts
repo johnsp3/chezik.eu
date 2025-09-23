@@ -63,10 +63,14 @@ export async function sendContactNotification(
 ): Promise<ResendResponse> {
   try {
     const emailTemplate = generateContactNotificationEmail(data);
+    
+    // Ensure CONTACT_EMAIL is properly formatted
+    const contactEmail = CONTACT_EMAIL || 'media@chezik.eu';
+    console.log('Sending contact notification to:', contactEmail);
 
     const result = await resend.emails.send({
       from: `John Chezik <${FROM_EMAIL}>`,
-      to: [CONTACT_EMAIL],
+      to: [contactEmail],
       subject: emailTemplate.subject,
       html: emailTemplate.html,
       text: emailTemplate.text,
@@ -160,9 +164,13 @@ export async function sendNewsletterNotification(
 		`;
     const text = `New Newsletter Subscription\nEmail: ${data.email}\nSource: ${data.source || "Website"}\nTimestamp: ${new Date().toLocaleString()}`;
 
+    // Ensure CONTACT_EMAIL is properly formatted
+    const contactEmail = CONTACT_EMAIL || 'media@chezik.eu';
+    console.log('Sending newsletter notification to:', contactEmail);
+
     const result = await resend.emails.send({
       from: `John Chezik <${FROM_EMAIL}>`,
-      to: [CONTACT_EMAIL],
+      to: [contactEmail],
       subject,
       html,
       text,
