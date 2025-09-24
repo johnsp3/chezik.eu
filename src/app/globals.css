@@ -571,28 +571,6 @@ button:focus-visible {
   opacity: 1;
 }
 
-.admin-link {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #00d4ff, #0099cc);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  text-decoration: none;
-  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
-  transition: all 0.3s ease;
-  z-index: 1000;
-}
-
-.admin-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
-}
 
 /* Hero Section Styles */
 .hero {

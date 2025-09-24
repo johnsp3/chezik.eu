@@ -408,14 +408,6 @@ export default function RootLayout({
           {children}
         </div>
         
-        {/* Admin Panel Link */}
-        <a 
-          href="/admin" 
-          className="admin-link fixed bottom-5 right-5 w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-2xl no-underline shadow-lg shadow-blue-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/40 z-50"
-          title="Admin Panel"
-        >
-          ⚙️
-        </a>
         
         <Analytics />
         <SpeedInsights />
