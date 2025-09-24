@@ -17,7 +17,7 @@ import { withPerformanceMonitoring, trackUserBehavior } from '@/lib/monitoring/v
 export const runtime = 'edge';
 export const revalidate = 3600; // Cache for 1 hour
 
-// Audio file mappings
+// Audio file mappings - Updated to match actual files in public directory
 const audioFiles = {
   1: {
     file: '/John Chezik don\'t say it\'s over 0m37s.mp3',
@@ -25,29 +25,34 @@ const audioFiles = {
     duration: 37
   },
   2: {
-    file: '/visualman_4m12s.mp3',
+    file: '/visualman.mp3',
     title: 'The Visual Man',
     duration: 252
   },
   3: {
-    file: '/John_Chezik_The_Revealing_5m30s.mp3',
+    file: '/John_Chezik_The_Revealing.mp3',
     title: 'The Revealing',
     duration: 330
   },
   4: {
-    file: '/look_at_me_3m20s.mp3',
+    file: '/look_at_me.mp3',
     title: 'Look At Me',
     duration: 200
   },
   5: {
-    file: '/John_Chezik_My_Life_4m05s.mp3',
+    file: '/John_Chezik_My_Life.mp3',
     title: 'My Life',
     duration: 245
   },
   6: {
-    file: '/John_Chezik_something_more_3m55s.mp3',
+    file: '/John_Chezik_something_more.mp3',
     title: 'Something More',
     duration: 235
+  },
+  7: {
+    file: '/Tell_Me_How.mp3',
+    title: 'Tell Me How',
+    duration: 180
   }
 };
 
