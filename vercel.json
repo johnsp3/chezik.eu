@@ -78,7 +78,5 @@
   },
   "env": {
     "NEXT_TELEMETRY_DISABLED": "1"
-  },
-  "regions": ["iad1", "sfo1", "lhr1"],
-  "framework": "nextjs"
+  }
 }
