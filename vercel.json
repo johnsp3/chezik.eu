@@ -1,12 +1,5 @@
 {
   "version": 2,
-  "name": "chezik-eu",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
   "routes": [
     {
       "src": "/api/audio/stream/(.*)",
