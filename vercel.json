@@ -56,26 +56,6 @@
       }
     }
   ],
-  "functions": {
-    "src/app/api/audio/stream/[id]/route.ts": {
-      "maxDuration": 30
-    },
-    "src/app/api/audio/analytics/route.ts": {
-      "maxDuration": 10
-    },
-    "src/app/api/contact/route.ts": {
-      "maxDuration": 30
-    },
-    "src/app/api/email/preferences/route.ts": {
-      "maxDuration": 15
-    },
-    "src/app/api/email/unsubscribe/route.ts": {
-      "maxDuration": 15
-    },
-    "src/app/api/newsletter/route.ts": {
-      "maxDuration": 15
-    }
-  },
   "env": {
     "NEXT_TELEMETRY_DISABLED": "1"
   }
