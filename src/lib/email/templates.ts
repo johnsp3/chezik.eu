@@ -1,19 +1,50 @@
-import type {
-  ContactFormData,
-  NewsletterSignupData,
-  EmailTemplate,
-} from "./types.js";
+// Define types locally since they're not in the types file
+interface ContactFormData {
+  name: string;
+  email: string;
+  message: string;
+  subject?: string;
+}
+
+interface NewsletterSignupData {
+  email: string;
+  name?: string;
+  preferences?: string[];
+  source?: string;
+}
+
+interface EmailTemplate {
+  subject: string;
+  html: string;
+  text: string;
+}
 import { createHash } from "crypto";
 
+// Get the correct base URL for the current environment
+function getBaseUrl(): string {
+  // Check if we're in development mode
+  const isDevelopment = process.env.NODE_ENV === 'development' || 
+                       process.env.NODE_ENV === undefined ||
+                       process.env.VERCEL_ENV === 'development';
+  
+  // In development, use localhost
+  if (isDevelopment) {
+    return 'http://localhost:3000';
+  }
+  
+  // In production, use the configured base URL or default to chezik.eu
+  return process.env.NEXT_PUBLIC_BASE_URL || 'https://chezik.eu';
+}
+
 // Generate secure tokens for unsubscribe and preferences links
-function generateUnsubscribeToken(email: string): string {
+export function generateUnsubscribeToken(email: string): string {
   const secret = process.env.UNSUBSCRIBE_SECRET || "default-secret-key";
   const timestamp = Math.floor(Date.now() / (1000 * 60 * 60 * 24)); // Daily rotation
   const data = `${email}-unsubscribe-${timestamp}`;
   return createHash('sha256').update(data + secret).digest('hex').substring(0, 16);
 }
 
-function generatePreferencesToken(email: string): string {
+export function generatePreferencesToken(email: string): string {
   const secret = process.env.PREFERENCES_SECRET || "default-secret-key";
   const timestamp = Math.floor(Date.now() / (1000 * 60 * 60 * 24)); // Daily rotation
   const data = `${email}-preferences-${timestamp}`;
@@ -111,6 +142,10 @@ export function generateContactConfirmationEmail(
         
         <div class="content">
             <h2>Message received.</h2>
+            
+            <p><strong>From:</strong> ${data.name} (${data.email})</p>
+            <p><strong>Subject:</strong> ${data.subject}</p>
+            <p><strong>Message:</strong> ${data.message}</p>
             
             <p>Someone will get back to you as soon as possible.</p>
         </div>
@@ -430,7 +465,7 @@ export function generateNewsletterWelcomeEmail(
             
             <div class="unsubscribe">
                 <p>You received this email because you subscribed to John Chezik's newsletter.</p>
-                <p><a href="https://chezik.eu/unsubscribe?email=${data.email}&token=${generateUnsubscribeToken(data.email)}">Unsubscribe</a> | <a href="https://chezik.eu/preferences?email=${data.email}&token=${generatePreferencesToken(data.email)}">Email Preferences</a></p>
+                <p><a href="${getBaseUrl()}/unsubscribe?email=${encodeURIComponent(data.email)}&token=${generateUnsubscribeToken(data.email)}">Unsubscribe</a> | <a href="${getBaseUrl()}/preferences?email=${encodeURIComponent(data.email)}&token=${generatePreferencesToken(data.email)}">Email Preferences</a></p>
             </div>
         </div>
     </div>
@@ -464,8 +499,8 @@ John Chezik
 Platinum-Selling Songwriter-Singer & Guitar Player
 
 You received this email because you subscribed to John Chezik's newsletter.
-Unsubscribe: https://chezik.eu/unsubscribe?email=${data.email}&token=${generateUnsubscribeToken(data.email)}
-Email Preferences: https://chezik.eu/preferences?email=${data.email}&token=${generatePreferencesToken(data.email)}
+Unsubscribe: ${getBaseUrl()}/unsubscribe?email=${encodeURIComponent(data.email)}&token=${generateUnsubscribeToken(data.email)}
+Email Preferences: ${getBaseUrl()}/preferences?email=${encodeURIComponent(data.email)}&token=${generatePreferencesToken(data.email)}
 `;
 
   return { subject, html, text };

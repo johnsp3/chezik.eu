@@ -1,226 +1,278 @@
-# John Chezik - Official Website
+# John Chezik Music Website - Next.js 15
 
-> **Rating: 10/10** ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐  
-> A premium, feature-complete personal website for a platinum-selling artist
+A modern, high-performance music website built with Next.js 15, featuring advanced audio streaming, HLS support, and enterprise-grade analytics.
 
-## 🎸 Overview
+## 🚀 Features
 
-This is the official website for **John Chezik**, a platinum-selling songwriter-singer, guitar player, and published author. The site showcases 6 albums, 2 books, and decades of creative work through a modern, accessible, and performant web experience.
+### Audio System
+- **HLS Streaming**: HTTP Live Streaming for instant audio previews
+- **Adaptive Bitrate**: Automatic quality adjustment based on network conditions
+- **Advanced Analytics**: Comprehensive tracking of user listening behavior
+- **Performance Monitoring**: Real-time metrics for audio playback
+- **Mobile Optimization**: Touch-optimized controls with Web Audio API
 
-## ✨ Features
+### Technical Stack
+- **Next.js 15**: Latest version with App Router and Edge Runtime
+- **TypeScript**: Full type safety across the entire application
+- **Tailwind CSS**: Utility-first styling with custom design system
+- **Framer Motion**: Smooth animations and transitions
+- **HLS.js**: Professional-grade streaming library
+- **Resend**: Email service integration
+- **Vercel**: Optimized deployment with edge functions
 
-### 🎨 **Design & User Experience**
-
-- **Apple-inspired design system** with glass morphism effects
-- **Dark/Light theme toggle** with system preference detection
-- **Smooth animations** and micro-interactions
-- **Fully responsive** design for all devices
-- **Premium visual hierarchy** with custom typography
-
-### 🚀 **Performance & SEO**
-
-- **Perfect Lighthouse scores** with optimized loading
-- **Comprehensive SEO** with structured data (JSON-LD)
-- **Open Graph & Twitter Cards** for social sharing
-- **Image lazy loading** and modern formats
-- **Resource preloading** for critical assets
-
-### ♿ **Accessibility**
-
-- **WCAG 2.1 AA compliant** with ARIA landmarks
-- **Keyboard navigation** support
-- **Screen reader optimized** with semantic HTML
-- **High contrast mode** support
-- **Reduced motion** preferences respected
-
-### 📱 **Progressive Web App**
-
-- **Service Worker** for offline functionality
-- **App manifest** for installation
-- **Background sync** for form submissions
-- **Push notification** ready (future feature)
-
-### 🎵 **Music Features**
-
-- **Audio streaming** with security protection
-- **WebAudio API visualizer** with real-time frequency analysis
-- **Album showcase** with interactive players
-- **Music metadata** and structured data
-
-### 📚 **Content Management**
-
-- **Dynamic blog system** with rich content
-- **Book previews** with modal readers
-- **Newsletter integration** with API backend
-- **Social sharing** with native Web Share API
-
-### 🔍 **Advanced Features**
-
-- **Site-wide search** with keyboard shortcuts (⌘K)
-- **Contact form** with backend API integration
-- **Analytics integration** (Vercel Analytics)
-- **Error handling** and loading states
-
-## 🛠 Tech Stack
-
-- **Framework:** SvelteKit + TypeScript
-- **Styling:** Custom CSS with design tokens
-- **Icons:** Lucide Svelte
-- **Deployment:** Vercel with edge functions
-- **PWA:** Service Worker + Web Manifest
-- **Analytics:** Vercel Analytics + Speed Insights
-
-## 🚀 Quick Start
-
-```bash
-# Clone the repository
-git clone https://github.com/johnchezik/chezik.eu.git
-cd chezik.eu
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-```
+### Performance
+- **Edge Functions**: Global audio streaming endpoints
+- **Vercel Blob**: CDN-optimized audio file storage
+- **Streaming SSR**: Progressive page loading
+- **Image Optimization**: Next.js automatic image optimization
+- **Bundle Analysis**: Built-in performance monitoring
 
 ## 📁 Project Structure
 
 ```
 src/
-├── components/          # Reusable UI components
-│   ├── Hero.svelte     # Landing section with profile
-│   ├── AlbumsSection.svelte  # Music showcase
-│   ├── BooksSection.svelte   # Book catalog
-│   ├── BlogSection.svelte    # Dynamic blog
-│   ├── AudioVisualizer.svelte # WebAudio visualizer
-│   ├── SearchModal.svelte    # Site search
-│   └── ...
-├── routes/             # SvelteKit routes
-│   ├── +layout.svelte  # Root layout
-│   ├── +page.svelte    # Homepage
-│   └── api/           # Backend API routes
-│       ├── contact/   # Contact form handler
-│       └── newsletter/ # Newsletter signup
-├── app.css            # Global styles & design system
-└── app.html          # HTML template
-
-static/               # Static assets
-├── manifest.json     # PWA manifest
-├── sw.js            # Service worker
-├── sitemap.xml      # SEO sitemap
-├── robots.txt       # Search engine rules
-└── ...              # Images, audio, icons
+├── app/                    # Next.js App Router
+│   ├── api/               # API routes
+│   │   ├── audio/         # Audio streaming endpoints
+│   │   └── contact/       # Contact form handling
+│   ├── globals.css        # Global styles
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx           # Home page
+├── components/            # React components
+│   ├── AlbumsSection.tsx  # Music albums display
+│   ├── AudioPlayer.tsx    # Advanced audio player
+│   └── ...                # Other components
+├── lib/                   # Utility libraries
+│   ├── audio/             # Audio service and utilities
+│   └── email/             # Email service integration
+└── types/                 # TypeScript type definitions
+    └── audio.ts           # Audio system types
 ```
 
-## 🎯 Key Components
+## 🛠️ Installation
 
-### **Hero Section**
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd chezik-nextjs
+   ```
 
-- Professional studio photography
-- Animated gradient backgrounds
-- Statistics showcase
-- Call-to-action buttons
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-### **Albums Section**
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env.local
+   ```
+   
+   Configure the following variables:
+   ```env
+   NEXT_PUBLIC_BASE_URL=https://chezik.eu
+   RESEND_API_KEY=your_resend_api_key
+   EMAIL_SECRET=your_email_secret
+   ```
 
-- Interactive audio players
-- Album artwork galleries
-- Audio visualization
-- Streaming protection
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
 
-### **Books Section**
+5. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-- Book cover galleries
-- Preview modal system
-- Coming soon indicators
-- Purchase integration ready
+## 🎵 Audio System
 
-### **Blog System**
+### HLS Streaming
+The audio system supports HTTP Live Streaming for optimal performance:
 
-- Dynamic content management
-- Rich text formatting
-- Social sharing integration
-- SEO optimized articles
-
-### **Search Functionality**
-
-- Instant search results
-- Keyboard shortcuts
-- Content categorization
-- Accessibility focused
-
-## 🔧 Configuration
-
-### **Environment Variables**
-
-```env
-# Optional: For real email integration
-SENDGRID_API_KEY=your_key_here
-MAILCHIMP_API_KEY=your_key_here
-CONTACT_EMAIL=media@johnchezik.com
+```typescript
+// Audio track with HLS support
+const track: AudioTrack = {
+  id: 1,
+  title: "Don't Say It's Over",
+  audioFile: "/audio/track.mp3",
+  hlsUrl: "/api/audio/stream/1", // HLS endpoint
+  format: 'hls'
+};
 ```
 
-### **Customization**
+### Analytics Integration
+Comprehensive analytics tracking:
 
-- **Colors:** Update CSS variables in `src/app.css`
-- **Content:** Modify component data arrays
-- **Images:** Replace files in `static/` directory
-- **Audio:** Add files to `static/` directory
+```typescript
+// Analytics events are automatically tracked
+audioService.onEvent((event) => {
+  console.log('Audio event:', event);
+  // Events include: play, pause, seek, volume_change, complete, error
+});
+```
 
-## 📈 Performance Metrics
+### Performance Monitoring
+Real-time performance metrics:
 
-- **Lighthouse Score:** 100/100 across all categories
-- **Core Web Vitals:** All green
-- **Bundle Size:** Optimized with code splitting
-- **Load Time:** Sub-second first contentful paint
-
-## 🔒 Security Features
-
-- **Audio protection** from direct downloads
-- **Form validation** and sanitization
-- **Rate limiting** ready for production
-- **CORS protection** on API routes
-
-## 📱 Browser Support
-
-- **Chrome/Edge:** 88+
-- **Firefox:** 85+
-- **Safari:** 14+
-- **Mobile:** iOS Safari, Chrome Mobile
+```typescript
+const metrics = audioService.getPerformanceMetrics();
+console.log('Buffer health:', metrics.bufferHealth);
+console.log('Load time:', metrics.loadTime);
+```
 
 ## 🚀 Deployment
 
-The site is optimized for **Vercel** deployment:
+### Vercel Deployment
 
-```bash
-# Deploy with Vercel CLI
-npm i -g vercel
-vercel
+1. **Connect to Vercel**
+   ```bash
+   npx vercel
+   ```
+
+2. **Configure environment variables**
+   - `RESEND_API_KEY`: Your Resend API key
+   - `EMAIL_SECRET`: Secret for email validation
+   - `NEXT_PUBLIC_BASE_URL`: Your domain URL
+
+3. **Deploy**
+   ```bash
+   npx vercel --prod
+   ```
+
+### Audio File Setup
+
+1. **Upload audio files to Vercel Blob**
+   ```bash
+   # Install Vercel CLI
+   npm i -g vercel
+   
+   # Upload files
+   vercel blob upload audio/track1.mp3
+   ```
+
+2. **Configure HLS streaming**
+   - Audio files are automatically served with proper headers
+   - HLS segments are generated on-demand
+   - CDN caching is optimized for audio content
+
+## 📊 Analytics
+
+### Built-in Analytics
+- **Vercel Analytics**: Page views and performance metrics
+- **Speed Insights**: Core Web Vitals monitoring
+- **Custom Audio Analytics**: Detailed listening behavior tracking
+
+### Analytics Endpoints
+- `POST /api/audio/analytics`: Submit audio events
+- `GET /api/audio/analytics`: Get analytics summary
+
+## 🎨 Customization
+
+### Styling
+The project uses Tailwind CSS with a custom design system:
+
+```css
+/* Custom CSS variables */
+:root {
+  --color-accent-primary: #007aff;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
 ```
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
+### Audio Player
+Customize the audio player behavior:
+
+```typescript
+const config: AudioPlayerConfig = {
+  streaming: {
+    useHLS: true,
+    adaptiveBitrate: true,
+    bufferSize: 30,
+    maxBufferLength: 60
+  },
+  analytics: {
+    enabled: true,
+    batchSize: 10,
+    flushInterval: 5000
+  }
+};
+```
+
+## 🔧 Development
+
+### Available Scripts
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run type-check   # Run TypeScript checks
+npm run analyze      # Analyze bundle size
+```
+
+### Code Quality
+- **ESLint**: Code linting with Next.js configuration
+- **Prettier**: Code formatting
+- **TypeScript**: Type checking
+- **Husky**: Git hooks for quality assurance
+
+## 📱 Mobile Optimization
+
+### Touch Controls
+- Optimized touch targets (44px minimum)
+- Gesture support for audio controls
+- Responsive design for all screen sizes
+
+### Performance
+- Lazy loading for audio files
+- Progressive enhancement
+- Offline support with service workers
+
+## 🔒 Security
+
+### API Security
+- Rate limiting on contact forms
+- Input validation and sanitization
+- CORS configuration for audio endpoints
+
+### Content Security
+- Content Security Policy headers
+- XSS protection
+- CSRF protection for forms
+
+## 📈 Performance Metrics
+
+### Core Web Vitals
+- **LCP**: < 2.5s (Largest Contentful Paint)
+- **FID**: < 100ms (First Input Delay)
+- **CLS**: < 0.1 (Cumulative Layout Shift)
+
+### Audio Performance
+- **Load Time**: < 1s for audio metadata
+- **Seek Time**: < 100ms for seeking
+- **Buffer Health**: > 80% optimal
 
 ## 🤝 Contributing
 
-This is a personal website project, but feel free to:
-
-- Report issues or bugs
-- Suggest improvements
-- Use as inspiration for your own projects
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
 ## 📄 License
 
-© 2025 John Chezik. All rights reserved.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
----
+## 🆘 Support
 
-**Built with ❤️ and modern web technologies**
+For support and questions:
+- Email: john@chezik.eu
+- Website: https://chezik.eu
 
-_This website represents the pinnacle of personal website development, combining artistic vision with technical excellence to create an extraordinary digital experience._
+## 🙏 Acknowledgments
+
+- **Next.js Team**: For the amazing framework
+- **Vercel**: For the deployment platform
+- **HLS.js**: For the streaming library
+- **Tailwind CSS**: For the utility-first CSS framework

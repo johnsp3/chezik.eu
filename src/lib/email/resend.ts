@@ -1,19 +1,33 @@
 import { Resend } from "resend";
-import { RESEND_API_KEY, FROM_EMAIL } from "$env/static/private";
-import { env } from "$env/dynamic/private";
-import type {
-  ContactFormData,
-  NewsletterSignupData,
-  ResendResponse,
-} from "./types.js";
+// Define types locally since they're not in the types file
+interface ContactFormData {
+  name: string;
+  email: string;
+  message: string;
+  subject?: string;
+}
+
+interface NewsletterSignupData {
+  email: string;
+  name?: string;
+  preferences?: string[];
+  source?: string;
+}
+
+interface ResendResponse {
+  success: boolean;
+  messageId?: string;
+  message?: string;
+  error?: string;
+}
 import {
   generateContactConfirmationEmail,
   generateContactNotificationEmail,
   generateNewsletterWelcomeEmail,
-} from "./templates.js";
+} from "./templates";
 
 // Initialize Resend with API key
-const resend = new Resend(RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendContactConfirmation(
   data: ContactFormData,
@@ -22,7 +36,7 @@ export async function sendContactConfirmation(
     const emailTemplate = generateContactConfirmationEmail(data);
 
     const result = await resend.emails.send({
-      from: `John Chezik <${FROM_EMAIL}>`,
+      from: `John Chezik <${process.env.FROM_EMAIL}>`,
       to: [data.email],
       subject: emailTemplate.subject,
       html: emailTemplate.html,
@@ -66,11 +80,11 @@ export async function sendContactNotification(
     const emailTemplate = generateContactNotificationEmail(data);
     
     // Ensure CONTACT_EMAIL is properly formatted
-    const contactEmail = env.CONTACT_EMAIL || 'jchezik@gmail.com';
+    const contactEmail = process.env.CONTACT_EMAIL || 'jchezik@gmail.com';
     console.log('Sending contact notification to:', contactEmail);
 
     const result = await resend.emails.send({
-      from: `John Chezik <${FROM_EMAIL}>`,
+      from: `John Chezik <${process.env.FROM_EMAIL}>`,
       to: [contactEmail],
       subject: emailTemplate.subject,
       html: emailTemplate.html,
@@ -115,7 +129,7 @@ export async function sendNewsletterWelcome(
     const emailTemplate = generateNewsletterWelcomeEmail(data);
 
     const result = await resend.emails.send({
-      from: `John Chezik <${FROM_EMAIL}>`,
+      from: `John Chezik <${process.env.FROM_EMAIL}>`,
       to: [data.email],
       subject: emailTemplate.subject,
       html: emailTemplate.html,
@@ -166,11 +180,11 @@ export async function sendNewsletterNotification(
     const text = `New Newsletter Subscription\nEmail: ${data.email}\nSource: ${data.source || "Website"}\nTimestamp: ${new Date().toLocaleString()}`;
 
     // Ensure CONTACT_EMAIL is properly formatted
-    const contactEmail = env.CONTACT_EMAIL || 'jchezik@gmail.com';
+    const contactEmail = process.env.CONTACT_EMAIL || 'jchezik@gmail.com';
     console.log('Sending newsletter notification to:', contactEmail);
 
     const result = await resend.emails.send({
-      from: `John Chezik <${FROM_EMAIL}>`,
+      from: `John Chezik <${process.env.FROM_EMAIL}>`,
       to: [contactEmail],
       subject,
       html,

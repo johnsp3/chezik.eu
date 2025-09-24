@@ -21,7 +21,7 @@ This website is optimized for deployment on **Vercel** with the `@sveltejs/adapt
    ```
    MAILCHIMP_API_KEY=your_mailchimp_key
    SENDGRID_API_KEY=your_sendgrid_key
-   CONTACT_EMAIL=media@johnchezik.com
+   CONTACT_EMAIL=media@chezik.eu
    ```
 
 ### Build and Preview Locally

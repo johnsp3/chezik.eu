@@ -1,50 +1,27 @@
-import js from "@eslint/js";
-import globals from "globals";
-import svelte from "eslint-plugin-svelte";
-import prettier from "eslint-config-prettier";
-import typescript from "@typescript-eslint/eslint-plugin";
-import typescriptParser from "@typescript-eslint/parser";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
 
-export default [
-  js.configs.recommended,
-  ...svelte.configs["flat/recommended"],
-  prettier,
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     ignores: [
-      ".svelte-kit/**",
+      ".next/**",
+      "node_modules/**",
       "build/**",
       "dist/**",
-      "node_modules/**",
-      "static/sw.js",
-    ],
-  },
-  {
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
-    },
-  },
-  {
-    files: ["**/*.svelte"],
-    languageOptions: {
-      parser: typescriptParser,
-      parserOptions: {
-        parser: typescriptParser,
-      },
-    },
-    plugins: {
-      "@typescript-eslint": typescript,
-    },
-  },
-  {
-    files: ["**/*.ts", "**/*.js"],
-    languageOptions: {
-      parser: typescriptParser,
-    },
-    plugins: {
-      "@typescript-eslint": typescript,
-    },
-  },
+      "*.config.js",
+      "*.config.ts",
+      "next-env.d.ts"
+    ]
+  }
 ];
+
+export default eslintConfig;
