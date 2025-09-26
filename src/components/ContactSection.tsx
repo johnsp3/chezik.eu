@@ -264,7 +264,7 @@ const ContactSection: React.FC<ContactSectionProps> = () => {
               </div>
               <div className="bio-content">
                 <h3 className="bio-title">John Chezik</h3>
-                <p className="bio-subtitle">Platinum-selling songwriter-singer, guitar player and published author</p>
+                <p className="bio-subtitle">Platinum-selling songwriter, singer, guitar player, studio musician</p>
               </div>
             </div>
             

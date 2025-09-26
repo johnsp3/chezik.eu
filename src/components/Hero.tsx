@@ -80,13 +80,8 @@ export default function Hero() {
           <div className="hero-text">
             <h1 className="hero-title">
               <span className="title-line">John Chezik</span>
-              <span className="title-subtitle">Platinum-selling songwriter-singer, guitar player and published author. 6 albums, 2 books, decades of creating.</span>
+              <span className="title-subtitle">Platinum-selling songwriter, singer, guitar player, studio musician.</span>
             </h1>
-            
-            <p className="hero-description">
-              Explore the catalog of a career spanning decades of rock music and literary works. 
-              From chart-topping albums to critically acclaimed books.
-            </p>
             
             <div className="hero-stats">
               <div className="stat">
@@ -101,7 +96,7 @@ export default function Hero() {
                 <BookOpen size={20} />
                 <div className="stat-content">
                   <span className="stat-number">2</span>
-                  <span className="stat-label">Books</span>
+                  <span className="stat-label">Ebooks</span>
                 </div>
               </div>
             </div>
