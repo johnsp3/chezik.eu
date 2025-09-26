@@ -34,9 +34,9 @@ const nextConfig = {
   // Vercel-optimized headers
   async headers() {
     return [
-      // Audio files - long-term caching
+      // Audio files - long-term caching with proper CORS
       {
-        source: '/audio/:path*',
+        source: '/(.*\\.(mp3|wav|ogg|m4a))',
         headers: [
           {
             key: 'Cache-Control',
@@ -47,8 +47,20 @@ const nextConfig = {
             value: 'audio/mpeg',
           },
           {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
+            key: 'Accept-Ranges',
+            value: 'bytes',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET, HEAD, OPTIONS',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'Range, Content-Type',
           },
         ],
       },
@@ -76,7 +88,25 @@ const nextConfig = {
           },
         ],
       },
-      // Images - optimized caching
+      // Images - optimized caching with proper CORS
+      {
+        source: '/(.*\\.(png|jpg|jpeg|gif|webp|avif|svg))',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET, HEAD, OPTIONS',
+          },
+        ],
+      },
+      // Next.js optimized images
       {
         source: '/_next/image/:path*',
         headers: [

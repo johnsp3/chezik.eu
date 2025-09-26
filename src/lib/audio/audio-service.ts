@@ -205,12 +205,13 @@ export class AudioService {
       this.audioElement = new Audio();
       this.setupAudioElement();
       
-      // Setup HLS if supported and configured
-      if (this.config.streaming.useHLS && track.hlsUrl && Hls.isSupported()) {
+      // Setup HLS if supported and configured (only for actual HLS streams)
+      if (this.config.streaming.useHLS && track.hlsUrl && Hls.isSupported() && track.hlsUrl.includes('.m3u8')) {
         await this.setupHLS(track.hlsUrl);
       } else if (track.audioFile) {
-        // Fallback to direct audio file
+        // Use direct audio file for MP3 and other formats
         this.audioElement.src = track.audioFile;
+        console.log('[AUDIO_SERVICE] Loading direct audio file:', track.audioFile);
       }
       
       // Setup audio context for visualization
