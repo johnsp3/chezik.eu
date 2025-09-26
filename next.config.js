@@ -36,7 +36,7 @@ const nextConfig = {
     return [
       // Audio files - long-term caching with proper CORS
       {
-        source: '/(.*\\.(mp3|wav|ogg|m4a))',
+        source: '/:path*.mp3',
         headers: [
           {
             key: 'Cache-Control',
@@ -61,6 +61,27 @@ const nextConfig = {
           {
             key: 'Access-Control-Allow-Headers',
             value: 'Range, Content-Type',
+          },
+        ],
+      },
+      {
+        source: '/:path*.wav',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Content-Type',
+            value: 'audio/wav',
+          },
+          {
+            key: 'Accept-Ranges',
+            value: 'bytes',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
           },
         ],
       },
@@ -90,7 +111,7 @@ const nextConfig = {
       },
       // Images - optimized caching with proper CORS
       {
-        source: '/(.*\\.(png|jpg|jpeg|gif|webp|avif|svg))',
+        source: '/:path*.png',
         headers: [
           {
             key: 'Cache-Control',
@@ -100,9 +121,44 @@ const nextConfig = {
             key: 'Access-Control-Allow-Origin',
             value: '*',
           },
+        ],
+      },
+      {
+        source: '/:path*.jpg',
+        headers: [
           {
-            key: 'Access-Control-Allow-Methods',
-            value: 'GET, HEAD, OPTIONS',
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+        ],
+      },
+      {
+        source: '/:path*.jpeg',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+        ],
+      },
+      {
+        source: '/:path*.svg',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
           },
         ],
       },
