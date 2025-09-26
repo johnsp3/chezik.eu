@@ -249,6 +249,7 @@
 .hero {
   position: relative;
   min-height: 100vh;
+  padding-top: 70px; /* Account for fixed navigation height */
   display: flex;
   align-items: center;
   justify-content: center;
