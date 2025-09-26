@@ -14,6 +14,10 @@ Allow: /
 User-agent: Slurp
 Allow: /
 
+# Block Yandex from crawling
+User-agent: Yandex
+Disallow: /
+
 # Crawl delay (optional, helps with server load)
 Crawl-delay: 1
 
