@@ -11,14 +11,14 @@
 
 'use client';
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Music, Play, Pause } from 'lucide-react';
 import Image from 'next/image';
+import { createPortal } from 'react-dom';
 import SimpleAudioPlayer from './SimpleAudioPlayer';
 
 interface AlbumsSectionProps {
   className?: string;
-  mounted?: boolean;
 }
 
 interface AudioTrack {
@@ -110,17 +110,16 @@ const albums: AudioTrack[] = [
     }
   ];
 
-const AlbumsSection: React.FC<AlbumsSectionProps> = ({ className = '', mounted: propMounted }) => {
-  const [mounted, setMounted] = useState(false);
+const AlbumsSection: React.FC<AlbumsSectionProps> = React.memo(({ className = '' }) => {
   const [currentlyPlaying, setCurrentlyPlaying] = useState<number | null>(null);
   const [showPlayer, setShowPlayer] = useState(false);
   const [, setTrackDurations] = useState<Record<number, number>>({});
   
-  const playerAnchorRef = useRef<HTMLDivElement>(null);
 
   // Initialize component
   useEffect(() => {
-    setMounted(true);
+    // Only run on client side to avoid hydration mismatches
+    if (typeof window === 'undefined') return;
     
     // Load saved durations from localStorage
     const savedDurations = localStorage.getItem('track_durations');
@@ -134,6 +133,35 @@ const AlbumsSection: React.FC<AlbumsSectionProps> = ({ className = '', mounted: 
       }
     }
   }, []);
+
+  const handleClosePlayer = useCallback(() => {
+    setShowPlayer(false);
+    setCurrentlyPlaying(null);
+  }, []);
+
+  // Handle keyboard events for modal
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && showPlayer) {
+        handleClosePlayer();
+      }
+    };
+
+    if (showPlayer) {
+      document.addEventListener('keydown', handleKeyDown);
+      // Simply prevent scrolling without changing position
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Restore scrolling
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      // Always restore scrolling on cleanup
+      document.body.style.overflow = 'unset';
+    };
+  }, [showPlayer, handleClosePlayer]);
 
   const handlePlayAlbum = useCallback((albumId: number) => {
     const album = albums.find(a => a.id === albumId);
@@ -161,16 +189,6 @@ const AlbumsSection: React.FC<AlbumsSectionProps> = ({ className = '', mounted: 
     setShowPlayer(true);
     
     console.log(`[ALBUMS] Set currently playing to: ${album.title}`);
-    
-    // Scroll to player after a short delay
-    setTimeout(() => {
-      if (playerAnchorRef.current) {
-        playerAnchorRef.current.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'center'
-        });
-      }
-    }, 500);
   }, [currentlyPlaying, showPlayer]);
 
   const shouldShowPause = (albumId: number): boolean => {
@@ -187,16 +205,11 @@ const AlbumsSection: React.FC<AlbumsSectionProps> = ({ className = '', mounted: 
     return '0:00';
   };
 
-  const handleClosePlayer = useCallback(() => {
-    setShowPlayer(false);
-    setCurrentlyPlaying(null);
-  }, []);
-
   return (
-    <section id="albums" className={`section albums-section ${className}`}>
+    <section id="albums" className={`section albums-section ${className || ''}`}>
       <div className="container">
         {/* Section Header */}
-        <div className={`section-header ${(mounted || propMounted) ? 'mounted' : ''}`}>
+        <div className="section-header">
           <div className="section-badge">
             <Music size={16} />
             <span>Music Portfolio</span>
@@ -211,10 +224,11 @@ const AlbumsSection: React.FC<AlbumsSectionProps> = ({ className = '', mounted: 
         </div>
         
         {/* Albums Grid */}
-        <div className={`albums-grid ${(mounted || propMounted) ? 'mounted' : ''}`}>
+        <div className="albums-grid">
           {albums.map((album, index) => (
             <div 
               key={album.id}
+              id={`album-${album.title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')}`}
               className="album-card" 
               style={{ '--delay': `${index * 100}ms` } as React.CSSProperties}
             >
@@ -235,6 +249,7 @@ const AlbumsSection: React.FC<AlbumsSectionProps> = ({ className = '', mounted: 
                         className={`play-btn ${shouldShowPause(album.id) ? 'playing' : ''}`}
                         onClick={() => handlePlayAlbum(album.id)}
                         aria-label={`${shouldShowPause(album.id) ? 'Pause' : 'Play'} ${album.title}`}
+                        suppressHydrationWarning
                       >
                         {shouldShowPause(album.id) ? (
                           <Pause size={24} />
@@ -253,6 +268,7 @@ const AlbumsSection: React.FC<AlbumsSectionProps> = ({ className = '', mounted: 
                           className={`play-btn ${shouldShowPause(album.id) ? 'playing' : ''}`}
                           onClick={() => handlePlayAlbum(album.id)}
                           aria-label={`${shouldShowPause(album.id) ? 'Pause' : 'Play'} ${album.title}`}
+                          suppressHydrationWarning
                         >
                           {shouldShowPause(album.id) ? (
                             <Pause size={24} />
@@ -301,22 +317,31 @@ const AlbumsSection: React.FC<AlbumsSectionProps> = ({ className = '', mounted: 
           ))}
         </div>
         
-        {/* Audio Player Anchor */}
-        <div ref={playerAnchorRef} className="audio-player-anchor"></div>
-        
-        {/* Audio Player Container */}
-        {showPlayer && currentlyPlaying && (
-          <div className={`audio-player-container ${(mounted || propMounted) ? 'mounted' : ''}`}>
-            <SimpleAudioPlayer 
-              track={albums.find(a => a.id === currentlyPlaying) || null}
-              autoPlay={true}
-              onClose={handleClosePlayer}
-            />
-          </div>
+        {/* Audio Player Modal */}
+        {showPlayer && currentlyPlaying && typeof window !== 'undefined' && createPortal(
+          <div className="audio-player-modal">
+            <div 
+              className="audio-player-modal-backdrop" 
+              onClick={handleClosePlayer}
+              onKeyDown={(e) => e.key === 'Escape' && handleClosePlayer()}
+              role="button"
+              tabIndex={0}
+              aria-label="Close audio player"
+            ></div>
+            <div className="audio-player-modal-content">
+              <SimpleAudioPlayer 
+                track={albums.find(a => a.id === currentlyPlaying) || null}
+                autoPlay={true}
+                onClose={handleClosePlayer}
+              />
+            </div>
+          </div>,
+          document.body
         )}
       </div>
     </section>
   );
-};
+});
 
+AlbumsSection.displayName = 'AlbumsSection';
 export default AlbumsSection;

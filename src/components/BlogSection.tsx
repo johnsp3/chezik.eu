@@ -27,11 +27,10 @@ interface BlogPost {
 }
 
 interface BlogSectionProps {
-  mounted?: boolean;
+  className?: string;
 }
 
-const BlogSection: React.FC<BlogSectionProps> = ({ mounted: propMounted }) => {
-  const [mounted, setMounted] = useState(false);
+const BlogSection: React.FC<BlogSectionProps> = () => {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
   // Exact content from the old site's "Latest News & Updates" section
@@ -109,7 +108,7 @@ I've already used it on several new recordings, and the difference in sound is r
   ];
 
   useEffect(() => {
-    setMounted(true);
+    // Component mounted
   }, []);
 
   useEffect(() => {
@@ -159,7 +158,7 @@ I've already used it on several new recordings, and the difference in sound is r
     <section id="blog" className="section blog-section">
       <div className="container">
         {/* Section Header */}
-        <div className={`section-header ${(mounted || propMounted) ? 'mounted' : ''}`}>
+        <div className="section-header">
           <div className="section-badge">
             <Calendar size={16} />
             <span>Latest Updates</span>
@@ -174,10 +173,11 @@ I've already used it on several new recordings, and the difference in sound is r
         </div>
 
         {/* Blog Posts Grid */}
-        <div className={`blog-grid ${(mounted || propMounted) ? 'mounted' : ''}`}>
+        <div className="blog-grid">
           {blogPosts.map((post, index) => (
             <div 
               key={post.id}
+              id={`blog-${post.title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')}`}
               className="blog-post" 
               style={{ '--delay': `${index * 150}ms` } as React.CSSProperties}
             >
@@ -211,8 +211,24 @@ I've already used it on several new recordings, and the difference in sound is r
 
   // Render modal as portal to document body to avoid layout issues
   const modalContent = selectedPost && (
-    <div className="modal-overlay" onClick={closeModal}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex
+    <div 
+      className="modal-overlay" 
+      onClick={closeModal}
+      onKeyDown={(e) => e.key === 'Escape' && closeModal()}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Blog post modal"
+// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+      tabIndex={0}
+    >
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex */}
+      <div 
+        className="modal-content" 
+        onClick={(e) => e.stopPropagation()}
+        role="document"
+        tabIndex={-1}
+      >
         <button className="modal-close" onClick={closeModal}>
           ×
         </button>

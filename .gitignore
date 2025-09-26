@@ -8,12 +8,11 @@ node_modules/
 /.svelte-kit
 /.vercel
 
-# Environment variables
+# Environment variables - CRITICAL FOR SECURITY
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
+env.example
 
 # Logs
 npm-debug.log*
@@ -104,3 +103,39 @@ temp/
 # OS generated files
 Thumbs.db
 .vercel
+
+# Security and sensitive files
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+.secrets/
+
+# IDE and editor files
+.vscode/settings.json
+.vscode/launch.json
+.idea/workspace.xml
+.idea/tasks.xml
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Bundle analysis reports
+.next/analyze/
+bundle-report.html

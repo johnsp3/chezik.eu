@@ -11,20 +11,15 @@
 
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ChevronDown, Music, BookOpen } from 'lucide-react';
 import Image from 'next/image';
 
-interface HeroProps {
-  mounted?: boolean;
-}
 
-export default function Hero({ mounted: propMounted }: HeroProps) {
-  const [mounted, setMounted] = useState(false);
+export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    setMounted(true);
     
     // Parallax effect for hero background
     const handleScroll = () => {
@@ -54,6 +49,7 @@ export default function Hero({ mounted: propMounted }: HeroProps) {
       role="banner"
       aria-label="Hero section - John Chezik introduction"
     >
+      <div id="section-home" className="anchor-marker" aria-hidden="true"></div>
       <div className="hero-background" aria-hidden="true">
         <div className="gradient-orb orb-1"></div>
         <div className="gradient-orb orb-2"></div>
@@ -61,7 +57,7 @@ export default function Hero({ mounted: propMounted }: HeroProps) {
       </div>
       
       <div className="container">
-        <div className={`hero-content ${(mounted || propMounted) ? 'mounted' : ''}`}>
+        <div className="hero-content">
           {/* Profile Image */}
           <div className="profile-image">
             <div className="image-container">
@@ -72,6 +68,9 @@ export default function Hero({ mounted: propMounted }: HeroProps) {
                 width={300}
                 height={300}
                 priority
+                sizes="(max-width: 768px) 200px, (max-width: 1024px) 250px, 300px"
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
               />
               <div className="image-glow"></div>
             </div>

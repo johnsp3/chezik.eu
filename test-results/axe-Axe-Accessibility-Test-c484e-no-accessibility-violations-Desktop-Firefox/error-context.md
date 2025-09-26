@@ -1,0 +1,705 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e4]:
+    - navigation "Main navigation" [ref=e5]:
+      - generic [ref=e7]:
+        - link "John Chezik - Go to homepage" [ref=e9] [cursor=pointer]:
+          - /url: "#home"
+          - generic [ref=e10] [cursor=pointer]: John Chezik
+        - generic [ref=e11]:
+          - menubar [ref=e12]:
+            - menuitem "Navigate to Home section" [ref=e13] [cursor=pointer]: Home
+            - menuitem "Navigate to Albums section" [ref=e14] [cursor=pointer]: Albums
+            - menuitem "Navigate to Books section" [ref=e15] [cursor=pointer]: Books
+            - menuitem "Navigate to Blog section" [ref=e16] [cursor=pointer]: Blog
+            - menuitem "Navigate to Gallery section" [ref=e17] [cursor=pointer]: Gallery
+            - menuitem "Navigate to About section" [ref=e18] [cursor=pointer]: About
+            - menuitem "Navigate to Contact section" [ref=e19] [cursor=pointer]: Contact
+          - button "Search (⌘K)" [ref=e20] [cursor=pointer]:
+            - img [ref=e21] [cursor=pointer]
+          - button "Toggle theme" [ref=e24] [cursor=pointer]:
+            - img [ref=e25] [cursor=pointer]
+    - dialog "Search modal" [ref=e35]:
+      - document [ref=e36]:
+        - generic [ref=e37]:
+          - generic [ref=e38]:
+            - img [ref=e39]
+            - textbox "Search everything..." [active] [ref=e42]
+          - button "Close search" [ref=e43] [cursor=pointer]:
+            - img [ref=e44] [cursor=pointer]
+        - generic [ref=e49]:
+          - img [ref=e50]
+          - paragraph [ref=e53]: Search across all content
+          - paragraph [ref=e54]: Type at least 2 characters to start searching
+    - main "Main content" [ref=e55]:
+      - banner "Hero section - John Chezik introduction" [ref=e56]:
+        - generic [ref=e58]:
+          - img "John Chezik in his professional studio, platinum-selling songwriter-singer and guitar player" [ref=e61]
+          - generic [ref=e63]:
+            - heading "John Chezik Platinum-selling songwriter-singer, guitar player and published author. 6 albums, 2 books, decades of creating." [level=1] [ref=e64]:
+              - generic [ref=e65]: John Chezik
+              - generic [ref=e66]: Platinum-selling songwriter-singer, guitar player and published author. 6 albums, 2 books, decades of creating.
+            - paragraph [ref=e67]: Explore the catalog of a career spanning decades of rock music and literary works. From chart-topping albums to critically acclaimed books.
+            - generic [ref=e68]:
+              - generic [ref=e69]:
+                - img [ref=e70]
+                - generic [ref=e74]:
+                  - generic [ref=e75]: "6"
+                  - generic [ref=e76]: Albums
+              - generic [ref=e77]:
+                - img [ref=e78]
+                - generic [ref=e81]:
+                  - generic [ref=e82]: "2"
+                  - generic [ref=e83]: Books
+            - generic [ref=e84]:
+              - button "Explore John Chezik's work - scroll to albums section" [ref=e85] [cursor=pointer]: Explore My Work
+              - link "Get in touch with John Chezik - go to contact section" [ref=e86] [cursor=pointer]:
+                - /url: "#contact"
+                - text: Get In Touch
+        - button "Scroll to next section - albums" [ref=e87] [cursor=pointer]:
+          - img [ref=e88] [cursor=pointer]
+      - generic [ref=e91]:
+        - generic [ref=e92]:
+          - generic [ref=e93]:
+            - img [ref=e94]
+            - generic [ref=e98]: Music Portfolio
+          - heading "Latest Albums" [level=2] [ref=e99]
+          - paragraph [ref=e100]: Explore my musical journey through these carefully crafted albums, each telling a unique story through sound and melody.
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - generic [ref=e104]:
+              - img "Don't Say It's Over cover" [ref=e105]
+              - button "Play Don't Say It's Over" [ref=e107] [cursor=pointer]:
+                - img [ref=e108] [cursor=pointer]
+            - generic [ref=e110]:
+              - generic [ref=e111]:
+                - generic [ref=e112]: "2025"
+                - generic [ref=e113]: Hard Rock
+              - heading "Don't Say It's Over" [level=3] [ref=e114]
+              - paragraph [ref=e115]: A heartfelt plea to hold on to love. The song captures the pain of separation, the hope for reconciliation, and the enduring belief that true love is worth one more chance.
+              - button "Play 0:37" [ref=e117] [cursor=pointer]:
+                - img [ref=e118] [cursor=pointer]
+                - text: Play
+                - generic [ref=e120] [cursor=pointer]: 0:37
+          - generic [ref=e121]:
+            - generic [ref=e123]:
+              - img "The Visual Man cover" [ref=e124]
+              - button "Play The Visual Man" [ref=e126] [cursor=pointer]:
+                - img [ref=e127] [cursor=pointer]
+            - generic [ref=e129]:
+              - generic [ref=e130]:
+                - generic [ref=e131]: "2024"
+                - generic [ref=e132]: Hard Rock
+              - heading "The Visual Man" [level=3] [ref=e133]
+              - paragraph [ref=e134]: The Visual Man is about seduction, energy, and connection. It explores the hypnotic pull of desire and the promise of being lifted into a world of passion and ecstasy.
+              - button "Play 0:22" [ref=e136] [cursor=pointer]:
+                - img [ref=e137] [cursor=pointer]
+                - text: Play
+                - generic [ref=e139] [cursor=pointer]: 0:22
+          - generic [ref=e140]:
+            - generic [ref=e142]:
+              - img "The Revealing cover" [ref=e143]
+              - button "Play The Revealing" [ref=e145] [cursor=pointer]:
+                - img [ref=e146] [cursor=pointer]
+            - generic [ref=e148]:
+              - generic [ref=e149]:
+                - generic [ref=e150]: "2023"
+                - generic [ref=e151]: Hard Rock/Blues/Instrumental
+              - heading "The Revealing" [level=3] [ref=e152]
+              - paragraph [ref=e153]: About embracing who you truly are and opening yourself to passion and emotion. It's a journey of self-discovery, vulnerability, and the pleasure of letting your inner feelings shine.
+              - button "Play 0:30" [ref=e155] [cursor=pointer]:
+                - img [ref=e156] [cursor=pointer]
+                - text: Play
+                - generic [ref=e158] [cursor=pointer]: 0:30
+          - generic [ref=e159]:
+            - generic [ref=e161]:
+              - img "Look At Me cover" [ref=e162]
+              - button "Play Look At Me" [ref=e164] [cursor=pointer]:
+                - img [ref=e165] [cursor=pointer]
+            - generic [ref=e167]:
+              - generic [ref=e168]:
+                - generic [ref=e169]: "2022"
+                - generic [ref=e170]: Hard Rock
+              - heading "Look At Me" [level=3] [ref=e171]
+              - paragraph [ref=e172]: A dark and haunting song about fear, power, and pursuit. It tells the story of an unstoppable presence that invades the mind and soul, leaving no escape. A chilling portrayal of a sinister force that consumes everything in its path, leaving nowhere to hide.
+              - button "Play 0:33" [ref=e174] [cursor=pointer]:
+                - img [ref=e175] [cursor=pointer]
+                - text: Play
+                - generic [ref=e177] [cursor=pointer]: 0:33
+          - generic [ref=e178]:
+            - generic [ref=e180]:
+              - img "My Life cover" [ref=e181]
+              - button "Play My Life" [ref=e183] [cursor=pointer]:
+                - img [ref=e184] [cursor=pointer]
+            - generic [ref=e186]:
+              - generic [ref=e187]:
+                - generic [ref=e188]: "2021"
+                - generic [ref=e189]: Soft/Acoustic
+              - heading "My Life" [level=3] [ref=e190]
+              - paragraph [ref=e191]: A reflective anthem about the highs and lows of chasing the rock 'n' roll dream. It blends youthful ambition with the struggles of the road, capturing both the cost and the passion of a life dedicated to music, while celebrating the freedom and purpose found along the journey.
+              - button "Play 0:40" [ref=e193] [cursor=pointer]:
+                - img [ref=e194] [cursor=pointer]
+                - text: Play
+                - generic [ref=e196] [cursor=pointer]: 0:40
+          - generic [ref=e197]:
+            - generic [ref=e199]:
+              - img "Something More cover" [ref=e200]
+              - button "Play Something More" [ref=e202] [cursor=pointer]:
+                - img [ref=e203] [cursor=pointer]
+            - generic [ref=e205]:
+              - generic [ref=e206]:
+                - generic [ref=e207]: "2020"
+                - generic [ref=e208]: Soft/Piano
+              - heading "Something More" [level=3] [ref=e209]
+              - paragraph [ref=e210]: A heartfelt ballad about enduring love and the strength it brings through life's challenges. It reflects on loyalty, gratitude, and the certainty of a bond that has stood the test of time, showing that true love always reveals something deeper and more meaningful.
+              - button "Play 0:31" [ref=e212] [cursor=pointer]:
+                - img [ref=e213] [cursor=pointer]
+                - text: Play
+                - generic [ref=e215] [cursor=pointer]: 0:31
+      - generic [ref=e218]:
+        - generic [ref=e219]:
+          - generic [ref=e220]:
+            - img [ref=e221]
+            - generic [ref=e224]: Published Works
+          - heading "My Books" [level=2] [ref=e225]
+          - paragraph [ref=e226]: Explore my written works that complement my musical journey, covering topics from psychology to self-development and creative philosophy.
+        - generic [ref=e228]:
+          - generic [ref=e229]:
+            - generic [ref=e230]:
+              - img "The Visual Man cover" [ref=e231]
+              - generic [ref=e232]: Coming Soon
+            - generic [ref=e233]:
+              - generic [ref=e234]:
+                - generic [ref=e235]: "2025"
+                - generic [ref=e236]: Psychology
+              - heading "The Visual Man" [level=4] [ref=e237]
+              - paragraph [ref=e238]: Explores the connection between psychology, attraction, and influence through advanced psychological frameworks. This work examines the subtle dynamics of human interaction and the art of authentic connection.
+          - generic [ref=e239]:
+            - generic:
+              - img "The Alpha Code cover"
+            - generic [ref=e240]:
+              - generic [ref=e241]:
+                - generic [ref=e242]: "2024"
+                - generic [ref=e243]: Self-Development
+              - heading "The Alpha Code" [level=4] [ref=e244]
+              - paragraph [ref=e245]: A bold guide for men ready to rise above mediocrity and step into their power. It challenges you to cultivate self-reliance, confidence, and fearless decision-making while mastering conflict and living by a personal code that commands respect and influence.
+              - button "Preview" [ref=e247] [cursor=pointer]:
+                - img [ref=e248] [cursor=pointer]
+                - text: Preview
+      - generic [ref=e252]:
+        - generic [ref=e253]:
+          - generic [ref=e254]:
+            - img [ref=e255]
+            - generic [ref=e260]: Latest Updates
+          - heading "From the Studio & Beyond" [level=2] [ref=e261]
+          - paragraph [ref=e262]: Stay updated with my latest projects, insights from the creative process, and behind-the-scenes stories from my musical and literary journey.
+        - generic [ref=e263]:
+          - generic [ref=e264]:
+            - generic [ref=e265]:
+              - generic [ref=e266]: 🎵 In the Studio
+              - generic [ref=e267]: Current
+            - 'heading "Recording Album #7" [level=3] [ref=e268]'
+            - paragraph [ref=e269]: Currently in pre-production for my 7th studio album, working with incredible session musicians to explore new sonic territories. The creative energy is electric, and I'm pushing boundaries I've never touched before.
+            - button "Read More" [ref=e271] [cursor=pointer]:
+              - img [ref=e272] [cursor=pointer]
+              - text: Read More
+          - generic [ref=e274]:
+            - generic [ref=e275]:
+              - generic [ref=e276]: 📚 New Book
+              - generic [ref=e277]: Spring 2026
+            - heading "What Women Really Want" [level=3] [ref=e278]
+            - paragraph [ref=e279]: Putting the finishing touches on my upcoming book exploring authentic masculinity and genuine connection. A deep dive into understanding relationships from a psychological perspective.
+            - button "Read More" [ref=e281] [cursor=pointer]:
+              - img [ref=e282] [cursor=pointer]
+              - text: Read More
+          - generic [ref=e284]:
+            - generic [ref=e285]:
+              - generic [ref=e286]: 🏗️ Studio Expansion
+              - generic [ref=e287]: "2025"
+            - heading "Home Studio Renovation" [level=3] [ref=e288]
+            - paragraph [ref=e289]: Breaking ground on a major renovation of my home studio complex. Adding a full performance room with vintage acoustics and expanding the mixing suite for a creative sanctuary unlike anything I've built before.
+            - button "Read More" [ref=e291] [cursor=pointer]:
+              - img [ref=e292] [cursor=pointer]
+              - text: Read More
+          - generic [ref=e294]:
+            - generic [ref=e295]:
+              - generic [ref=e296]: 🎸 New Acquisition
+              - generic [ref=e297]: Recent
+            - heading "Vintage Gibson Les Paul" [level=3] [ref=e298]
+            - paragraph [ref=e299]: Just acquired a rare 1970s Gibson Les Paul that's become my new go-to guitar. The tone is absolutely haunting - perfect for the darker material I'm developing.
+            - button "Read More" [ref=e301] [cursor=pointer]:
+              - img [ref=e302] [cursor=pointer]
+              - text: Read More
+      - generic [ref=e305]:
+        - generic [ref=e306]:
+          - generic [ref=e307]:
+            - img [ref=e308]
+            - generic [ref=e311]: Photo Gallery
+          - heading "Behind the Music" [level=2] [ref=e312]
+          - paragraph [ref=e313]: Explore the moments that shape my musical journey through professional photography capturing studio sessions, live performances, and personal insights.
+        - generic [ref=e314]:
+          - button "View Powerhouse Vocals" [ref=e315]:
+            - generic [ref=e317]:
+              - img "Powerhouse Vocals" [ref=e318]
+              - img [ref=e321] [cursor=pointer]
+            - generic [ref=e324]:
+              - generic [ref=e325]:
+                - generic [ref=e326]: Studio
+                - generic [ref=e327]: "2025"
+              - heading "Powerhouse Vocals" [level=3] [ref=e328]
+              - paragraph [ref=e329]: John in the studio singing, capturing the raw emotion and passion of musical creation. This intimate moment shows the artist in his element, bringing songs to life through pure vocal expression.
+              - generic [ref=e330]:
+                - generic [ref=e331]:
+                  - img [ref=e332]
+                  - generic [ref=e337]: January 15, 2025
+                - generic [ref=e338]:
+                  - img [ref=e339]
+                  - generic [ref=e342]: John Chezik Studio
+                - generic [ref=e343]:
+                  - img [ref=e344]
+                  - generic [ref=e347]: Studio Team
+          - button "View Trying To Look Serious" [ref=e348]:
+            - generic [ref=e350]:
+              - img "Trying To Look Serious" [ref=e351]
+              - img [ref=e354] [cursor=pointer]
+            - generic [ref=e357]:
+              - generic [ref=e358]:
+                - generic [ref=e359]: Studio
+                - generic [ref=e360]: "2024"
+              - heading "Trying To Look Serious" [level=3] [ref=e361]
+              - paragraph [ref=e362]: A striking professional portrait of John standing confidently in the studio. This image captures the essence of a seasoned musician with decades of experience and passion for his craft.
+              - generic [ref=e363]:
+                - generic [ref=e364]:
+                  - img [ref=e365]
+                  - generic [ref=e370]: December 20, 2024
+                - generic [ref=e371]:
+                  - img [ref=e372]
+                  - generic [ref=e375]: John Chezik Studio
+                - generic [ref=e376]:
+                  - img [ref=e377]
+                  - generic [ref=e380]: Professional Photographer
+          - button "View My Favorite Acoustic" [ref=e381]:
+            - generic [ref=e383]:
+              - img "My Favorite Acoustic" [ref=e384]
+              - img [ref=e387] [cursor=pointer]
+            - generic [ref=e390]:
+              - generic [ref=e391]:
+                - generic [ref=e392]: Studio
+                - generic [ref=e393]: "2023"
+              - heading "My Favorite Acoustic" [level=3] [ref=e394]
+              - paragraph [ref=e395]: John with his full acoustic guitar in the studio, showcasing the intimate connection between artist and instrument. This moment captures the soulful essence of acoustic music creation.
+              - generic [ref=e396]:
+                - generic [ref=e397]:
+                  - img [ref=e398]
+                  - generic [ref=e403]: November 15, 2023
+                - generic [ref=e404]:
+                  - img [ref=e405]
+                  - generic [ref=e408]: John Chezik Studio
+                - generic [ref=e409]:
+                  - img [ref=e410]
+                  - generic [ref=e413]: Studio Team
+          - button "View In The Studio Somewhere" [ref=e414]:
+            - generic [ref=e416]:
+              - img "In The Studio Somewhere" [ref=e417]
+              - img [ref=e420] [cursor=pointer]
+            - generic [ref=e423]:
+              - generic [ref=e424]:
+                - generic [ref=e425]: Studio
+                - generic [ref=e426]: "1992"
+              - heading "In The Studio Somewhere" [level=3] [ref=e427]
+              - paragraph [ref=e428]: John in the studio with a natural, youthful smile that reflects the joy and passion he brings to music. This candid moment shows the artist's genuine love for his craft.
+              - generic [ref=e429]:
+                - generic [ref=e430]:
+                  - img [ref=e431]
+                  - generic [ref=e436]: October 30, 1992
+                - generic [ref=e437]:
+                  - img [ref=e438]
+                  - generic [ref=e441]: Blue Line Records Studio
+                - generic [ref=e442]:
+                  - img [ref=e443]
+                  - generic [ref=e446]: Studio Team
+          - button "View I Hope This Wire Goes Here" [ref=e447]:
+            - generic [ref=e449]:
+              - img "I Hope This Wire Goes Here" [ref=e450]
+              - img [ref=e453] [cursor=pointer]
+            - generic [ref=e456]:
+              - generic [ref=e457]:
+                - generic [ref=e458]: Studio
+                - generic [ref=e459]: "2008"
+              - heading "I Hope This Wire Goes Here" [level=3] [ref=e460]
+              - paragraph [ref=e461]: John working on a guitar, demonstrating his deep understanding of instruments and their role in musical creation. This image shows the technical side of musical artistry.
+              - generic [ref=e462]:
+                - generic [ref=e463]:
+                  - img [ref=e464]
+                  - generic [ref=e469]: September 25, 2008
+                - generic [ref=e470]:
+                  - img [ref=e471]
+                  - generic [ref=e474]: John Chezik Studio
+                - generic [ref=e475]:
+                  - img [ref=e476]
+                  - generic [ref=e479]: Studio Team
+          - button "View Kitchen Rockstar" [ref=e480]:
+            - generic [ref=e482]:
+              - img "Kitchen Rockstar" [ref=e483]
+              - img [ref=e486] [cursor=pointer]
+            - generic [ref=e489]:
+              - generic [ref=e490]:
+                - generic [ref=e491]: Vintage
+                - generic [ref=e492]: "1980"
+              - heading "Kitchen Rockstar" [level=3] [ref=e493]
+              - paragraph [ref=e494]: A nostalgic moment from 1980 showing John standing in a kitchen with his guitar. This early career photo captures the humble beginnings of a musical journey that would span decades.
+              - generic [ref=e495]:
+                - generic [ref=e496]:
+                  - img [ref=e497]
+                  - generic [ref=e502]: June 15, 1980
+                - generic [ref=e503]:
+                  - img [ref=e504]
+                  - generic [ref=e507]: Early Studio
+                - generic [ref=e508]:
+                  - img [ref=e509]
+                  - generic [ref=e512]: Vintage Photographer
+          - button "View My First Grammy" [ref=e513]:
+            - generic [ref=e515]:
+              - img "My First Grammy" [ref=e516]
+              - img [ref=e519] [cursor=pointer]
+            - generic [ref=e522]:
+              - generic [ref=e523]:
+                - generic [ref=e524]: Achievement
+                - generic [ref=e525]: "1996"
+              - heading "My First Grammy" [level=3] [ref=e526]
+              - paragraph [ref=e527]: John and Studios celebrating the 1996 Best Film Grammy achievement. This historic moment represents a significant milestone in John's illustrious career in the music industry.
+              - generic [ref=e528]:
+                - generic [ref=e529]:
+                  - img [ref=e530]
+                  - generic [ref=e535]: February 21, 1996
+                - generic [ref=e536]:
+                  - img [ref=e537]
+                  - generic [ref=e540]: Grammy Awards
+                - generic [ref=e541]:
+                  - img [ref=e542]
+                  - generic [ref=e545]: Awards Photographer
+          - button "View Trying To Look Cool" [ref=e546]:
+            - generic [ref=e548]:
+              - img "Trying To Look Cool" [ref=e549]
+              - img [ref=e552] [cursor=pointer]
+            - generic [ref=e555]:
+              - generic [ref=e556]:
+                - generic [ref=e557]: Lifestyle
+                - generic [ref=e558]: "2003"
+              - heading "Trying To Look Cool" [level=3] [ref=e559]
+              - paragraph [ref=e560]: John in Monaco with his new Pagani Zonda, showcasing the lifestyle that comes with musical success. This image represents the rewards of dedication to artistic excellence.
+              - generic [ref=e561]:
+                - generic [ref=e562]:
+                  - img [ref=e563]
+                  - generic [ref=e568]: August 10, 2003
+                - generic [ref=e569]:
+                  - img [ref=e570]
+                  - generic [ref=e573]: Monaco
+                - generic [ref=e574]:
+                  - img [ref=e575]
+                  - generic [ref=e578]: Lifestyle Photographer
+          - button "View My Ferrari F50 - Just Got It" [ref=e579]:
+            - generic [ref=e581]:
+              - img "My Ferrari F50 - Just Got It" [ref=e582]
+              - img [ref=e585] [cursor=pointer]
+            - generic [ref=e588]:
+              - generic [ref=e589]:
+                - generic [ref=e590]: Lifestyle
+                - generic [ref=e591]: "1996"
+              - heading "My Ferrari F50 - Just Got It" [level=3] [ref=e592]
+              - paragraph [ref=e593]: John with his stunning Ferrari F50 in Monaco, representing the pinnacle of automotive excellence and the luxurious lifestyle that accompanies musical achievement. This iconic supercar symbolizes the rewards of artistic dedication.
+              - generic [ref=e594]:
+                - generic [ref=e595]:
+                  - img [ref=e596]
+                  - generic [ref=e601]: September 15, 1996
+                - generic [ref=e602]:
+                  - img [ref=e603]
+                  - generic [ref=e606]: Monaco
+                - generic [ref=e607]:
+                  - img [ref=e608]
+                  - generic [ref=e611]: Lifestyle Photographer
+          - button "View V Studios 1998" [ref=e612]:
+            - generic [ref=e614]:
+              - img "V Studios 1998" [ref=e615]
+              - img [ref=e618] [cursor=pointer]
+            - generic [ref=e621]:
+              - generic [ref=e622]:
+                - generic [ref=e623]: Studio
+                - generic [ref=e624]: "1998"
+              - heading "V Studios 1998" [level=3] [ref=e625]
+              - paragraph [ref=e626]: John in the studio during the 1980s, leaning against the mixer board. This candid moment captures the artist in his creative environment, showcasing the technical side of music production and the intimate relationship between artist and studio equipment.
+              - generic [ref=e627]:
+                - generic [ref=e628]:
+                  - img [ref=e629]
+                  - generic [ref=e634]: June 15, 1998
+                - generic [ref=e635]:
+                  - img [ref=e636]
+                  - generic [ref=e639]: V Studios
+                - generic [ref=e640]:
+                  - img [ref=e641]
+                  - generic [ref=e644]: Studio Team
+          - button "View John, 17 Years Old" [ref=e645]:
+            - generic [ref=e647]:
+              - img "John, 17 Years Old" [ref=e648]
+              - img [ref=e651] [cursor=pointer]
+            - generic [ref=e654]:
+              - generic [ref=e655]:
+                - generic [ref=e656]: Vintage
+                - generic [ref=e657]: "1981"
+              - heading "John, 17 Years Old" [level=3] [ref=e658]
+              - paragraph [ref=e659]: A youthful portrait of John at 17 years old, capturing the early passion and determination that would define his musical journey. This early photo shows the raw talent and ambition that would eventually lead to a successful career in music.
+              - generic [ref=e660]:
+                - generic [ref=e661]:
+                  - img [ref=e662]
+                  - generic [ref=e667]: June 15, 1981
+                - generic [ref=e668]:
+                  - img [ref=e669]
+                  - generic [ref=e672]: Early Years
+                - generic [ref=e673]:
+                  - img [ref=e674]
+                  - generic [ref=e677]: Family Photographer
+          - button "View John, 16 Years Old" [ref=e678]:
+            - generic [ref=e680]:
+              - img "John, 16 Years Old" [ref=e681]
+              - img [ref=e684] [cursor=pointer]
+            - generic [ref=e687]:
+              - generic [ref=e688]:
+                - generic [ref=e689]: Vintage
+                - generic [ref=e690]: "1980"
+              - heading "John, 16 Years Old" [level=3] [ref=e691]
+              - paragraph [ref=e692]: A youthful portrait of John at 16 years old, capturing the early passion and determination that would define his musical journey. This early photo shows the raw talent and ambition that would eventually lead to a successful career in music.
+              - generic [ref=e693]:
+                - generic [ref=e694]:
+                  - img [ref=e695]
+                  - generic [ref=e700]: June 15, 1980
+                - generic [ref=e701]:
+                  - img [ref=e702]
+                  - generic [ref=e705]: Early Years
+                - generic [ref=e706]:
+                  - img [ref=e707]
+                  - generic [ref=e710]: Family Photographer
+      - generic [ref=e712]:
+        - generic [ref=e713]:
+          - generic [ref=e714]:
+            - img [ref=e715]
+            - generic [ref=e717]: About Me
+          - heading "Creative Journey" [level=2] [ref=e718]
+          - paragraph [ref=e719]: A career spanning decades as a songwriter-singer and author, creating works that have reached platinum status and critical acclaim across multiple creative disciplines.
+        - generic [ref=e720]:
+          - generic [ref=e721]:
+            - generic [ref=e722]:
+              - heading "About Me" [level=3] [ref=e723]
+              - paragraph [ref=e724]: From those early days of picking up my first guitar to hearing my songs on the radio, it's been an incredible ride of constant growth and discovery. Rock music gave me my foundation, but I found myself drawn to writing as another way to share what I've learned along the way.
+              - paragraph [ref=e725]: Over the decades, I've collaborated with Grammy Award-winning artists and contributed to countless projects. My six solo albums represent my personal artistic vision, while my collaborations showcase the breadth of my musical journey. The two books I've written explore many of the same themes that drive my music - human connection, personal power, and the psychology behind what moves us.
+              - paragraph [ref=e726]: Getting that platinum certification was surreal - not just because of the sales, but because it meant the music I poured my heart into actually connected with people. Whether I'm writing a song or a book, it all comes from the same place - this need to understand people and share what I've discovered about life, relationships, and finding your own strength.
+            - generic [ref=e727]:
+              - generic [ref=e728]:
+                - img [ref=e730]
+                - generic [ref=e734]:
+                  - generic [ref=e735]: "6"
+                  - generic [ref=e736]: Albums Released
+              - generic [ref=e737]:
+                - img [ref=e739]
+                - generic [ref=e742]:
+                  - generic [ref=e743]: "2"
+                  - generic [ref=e744]: Books Published
+              - generic [ref=e745]:
+                - img [ref=e747]
+                - generic [ref=e750]:
+                  - generic [ref=e751]: Platinum
+                  - generic [ref=e752]: Selling Status
+              - generic [ref=e753]:
+                - img [ref=e755]
+                - generic [ref=e760]:
+                  - generic [ref=e761]: Decades
+                  - generic [ref=e762]: Of Creating
+          - generic [ref=e763]:
+            - heading "📰 Latest News & Updates" [level=3] [ref=e764]:
+              - generic [ref=e765]: 📰
+              - text: Latest News & Updates
+            - generic [ref=e766]:
+              - generic [ref=e767]:
+                - generic [ref=e768]:
+                  - generic [ref=e769]: 🎵 In the Studio
+                  - generic [ref=e770]: Current
+                - 'heading "Recording Album #7" [level=4] [ref=e771]'
+                - paragraph [ref=e772]: Currently in pre-production for my 7th studio album, working with incredible session musicians to explore new sonic territories. The creative energy is electric, and I'm pushing boundaries I've never touched before.
+              - generic [ref=e773]:
+                - generic [ref=e774]:
+                  - generic [ref=e775]: 📚 New Book
+                  - generic [ref=e776]: Spring 2026
+                - heading "What Women Really Want" [level=4] [ref=e777]
+                - paragraph [ref=e778]: Putting the finishing touches on my upcoming book exploring authentic masculinity and genuine connection. A deep dive into understanding relationships from a psychological perspective.
+              - generic [ref=e779]:
+                - generic [ref=e780]:
+                  - generic [ref=e781]: 🏗️ Studio Expansion
+                  - generic [ref=e782]: "2025"
+                - heading "Home Studio Renovation" [level=4] [ref=e783]
+                - paragraph [ref=e784]: Breaking ground on a major renovation of my home studio complex. Adding a full performance room with vintage acoustics and expanding the mixing suite for a creative sanctuary unlike anything I've built before.
+              - generic [ref=e785]:
+                - generic [ref=e786]:
+                  - generic [ref=e787]: 🎸 New Acquisition
+                  - generic [ref=e788]: Recent
+                - heading "Vintage Gibson Les Paul" [level=4] [ref=e789]
+                - paragraph [ref=e790]: Just acquired a rare 1970s Gibson Les Paul that's become my new go-to guitar. The tone is absolutely haunting - perfect for the darker material I'm developing.
+          - generic [ref=e791]:
+            - heading "My Creative Timeline" [level=3] [ref=e792]:
+              - img [ref=e793]
+              - text: My Creative Timeline
+            - generic [ref=e796]:
+              - generic [ref=e799]:
+                - generic [ref=e800]: "2025"
+                - heading "Upcoming Releases" [level=4] [ref=e801]
+                - paragraph [ref=e802]: Released "Don&apos;t Say It&apos;s Over" - a heartfelt plea about enduring love, and preparing "The Visual Man" book exploring psychology and attraction for release.
+              - generic [ref=e805]:
+                - generic [ref=e806]: "2024"
+                - heading "Leadership & Rock" [level=4] [ref=e807]
+                - paragraph [ref=e808]: Published "The Alpha Code" - a bold guide for personal development and leadership, and released "The Visual Man" album exploring seduction and connection.
+              - generic [ref=e811]:
+                - generic [ref=e812]: "2023"
+                - heading "Blues Instrumental Mastery" [level=4] [ref=e813]
+                - paragraph [ref=e814]: Dropped "The Revealing" - a hard rock/blues/instrumental journey about embracing vulnerability and letting inner feelings shine.
+              - generic [ref=e817]:
+                - generic [ref=e818]: "2022"
+                - heading "Dark Rock Power" [level=4] [ref=e819]
+                - paragraph [ref=e820]: Released "Look At Me" - a dark and haunting exploration of fear, power, and psychological pursuit that showcases my harder edge.
+              - generic [ref=e823]:
+                - generic [ref=e824]: "2021"
+                - heading "Personal Reflection" [level=4] [ref=e825]
+                - paragraph [ref=e826]: Created "My Life" - a reflective anthem about the highs and lows of chasing the rock &apos;n&apos; roll dream and finding purpose in music.
+              - generic [ref=e829]:
+                - generic [ref=e830]: "2020"
+                - heading "My Favorite Ballads" [level=4] [ref=e831]
+                - paragraph [ref=e832]: Released "Something More" - a heartfelt ballad about enduring love and the strength it brings through life&apos;s challenges.
+          - generic [ref=e833]:
+            - heading "Skills & Expertise" [level=3] [ref=e834]
+            - generic [ref=e835]:
+              - generic [ref=e836]:
+                - heading "Musical Performance" [level=4] [ref=e837]
+                - list [ref=e838]:
+                  - listitem [ref=e839]: • Professional Guitar Player
+                  - listitem [ref=e840]: • Professional Singer
+                  - listitem [ref=e841]: • Songwriter & Composer
+                  - listitem [ref=e842]: • Music Arrangement & Orchestration
+              - generic [ref=e843]:
+                - heading "Music Production" [level=4] [ref=e844]
+                - list [ref=e845]:
+                  - listitem [ref=e846]: • Mixing & Mastering
+                  - listitem [ref=e847]: • Sound Design & Synthesis
+                  - listitem [ref=e848]: • Music Theory & Composition
+                  - listitem [ref=e849]: • Pro Tools & Studio Engineering
+              - generic [ref=e850]:
+                - heading "Writing & Publishing" [level=4] [ref=e851]
+                - list [ref=e852]:
+                  - listitem [ref=e853]: • Creative Writing & Storytelling
+                  - listitem [ref=e854]: • E-book Design & Formatting
+                  - listitem [ref=e855]: • Content Strategy & Development
+                  - listitem [ref=e856]: • Digital Publishing Platforms
+      - generic [ref=e858]:
+        - generic [ref=e859]:
+          - generic [ref=e860]:
+            - img [ref=e861]
+            - generic [ref=e863]: Get In Touch
+          - heading "Professional Contact" [level=2] [ref=e864]
+          - paragraph [ref=e865]: For professional inquiries, media requests, or business-related matters.
+        - generic [ref=e866]:
+          - generic [ref=e867]:
+            - generic [ref=e868]:
+              - img "John Chezik in his professional studio" [ref=e870]
+              - generic [ref=e872]:
+                - heading "John Chezik" [level=3] [ref=e873]
+                - paragraph [ref=e874]: Platinum-selling songwriter-singer, guitar player and published author
+            - generic [ref=e875]:
+              - generic [ref=e876]:
+                - heading "Send a Message" [level=3] [ref=e877]
+                - paragraph [ref=e878]: For professional inquiries
+              - generic [ref=e879]:
+                - generic [ref=e880]:
+                  - generic [ref=e881]: Name *
+                  - textbox "Name *" [ref=e882]
+                - generic [ref=e883]:
+                  - generic [ref=e884]: Email *
+                  - textbox "Email *" [ref=e885]
+                - generic [ref=e886]:
+                  - generic [ref=e887]: Subject
+                  - textbox "Subject" [ref=e888]
+                - generic [ref=e889]:
+                  - generic [ref=e890]: Message *
+                  - textbox "Message *" [ref=e891]
+                - button "Send Message" [ref=e892] [cursor=pointer]:
+                  - img [ref=e893] [cursor=pointer]
+                  - text: Send Message
+          - generic [ref=e896]:
+            - generic [ref=e897]:
+              - generic [ref=e898]:
+                - img [ref=e900]
+                - heading "Stay Updated" [level=3] [ref=e903]
+                - paragraph [ref=e904]: Get notified about new albums, book releases, and exclusive content.
+              - generic [ref=e906]:
+                - textbox "Enter your email address" [ref=e907]
+                - button "Subscribe to newsletter" [disabled] [ref=e908]:
+                  - img [ref=e909]
+              - generic [ref=e912]:
+                - generic [ref=e913]:
+                  - generic [ref=e914]: 🎵
+                  - generic [ref=e915]: New album releases
+                - generic [ref=e916]:
+                  - generic [ref=e917]: 📚
+                  - generic [ref=e918]: Book updates & previews
+                - generic [ref=e919]:
+                  - generic [ref=e920]: 🎸
+                  - generic [ref=e921]: Behind-the-scenes content
+              - paragraph [ref=e922]: No spam, unsubscribe at any time. Your email is safe with us.
+            - generic [ref=e923]:
+              - heading "Share This Page" [level=4] [ref=e924]
+              - paragraph [ref=e925]: Help others discover John's music and books.
+              - button "Share this page" [ref=e928] [cursor=pointer]:
+                - img [ref=e929] [cursor=pointer]
+                - generic [ref=e935] [cursor=pointer]: Share
+            - generic [ref=e936]:
+              - heading "Direct Contact" [level=4] [ref=e937]
+              - paragraph [ref=e938]: For professional inquiries
+              - generic [ref=e939]:
+                - generic [ref=e940]:
+                  - img [ref=e942]
+                  - generic [ref=e945]:
+                    - generic [ref=e946]: Email
+                    - generic [ref=e947]: media@chezik.eu
+                - generic [ref=e948]:
+                  - img [ref=e950]
+                  - generic [ref=e954]:
+                    - generic [ref=e955]: Website
+                    - generic [ref=e956]: www.chezik.eu
+    - contentinfo [ref=e957]:
+      - generic [ref=e958]:
+        - generic [ref=e960]:
+          - heading "Quick Links" [level=3] [ref=e961]
+          - list [ref=e962]:
+            - listitem [ref=e963]:
+              - link "Home" [ref=e964] [cursor=pointer]:
+                - /url: "#home"
+            - listitem [ref=e965]:
+              - link "Albums" [ref=e966] [cursor=pointer]:
+                - /url: "#albums"
+            - listitem [ref=e967]:
+              - link "Books" [ref=e968] [cursor=pointer]:
+                - /url: "#books"
+            - listitem [ref=e969]:
+              - link "About" [ref=e970] [cursor=pointer]:
+                - /url: "#about"
+            - listitem [ref=e971]:
+              - link "Contact" [ref=e972] [cursor=pointer]:
+                - /url: "#contact"
+        - generic [ref=e974]:
+          - paragraph [ref=e976]: © 2025 John Chezik. All rights reserved.
+          - generic [ref=e977]:
+            - button "Privacy" [ref=e978] [cursor=pointer]
+            - button "Terms" [ref=e979] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e985] [cursor=pointer]:
+    - img [ref=e986] [cursor=pointer]
+  - alert [ref=e990]
+```

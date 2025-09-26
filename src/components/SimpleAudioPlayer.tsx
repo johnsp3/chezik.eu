@@ -183,7 +183,8 @@ const SimpleAudioPlayer: React.FC<SimpleAudioPlayerProps> = ({ track, autoPlay =
       aria-label="Audio player"
       aria-live="polite"
     >
-      <audio ref={audioRef} preload="metadata" />
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+      <audio ref={audioRef} preload="metadata" aria-label={`Audio track: ${track.title}`} />
       
       {/* Close Button */}
       {onClose && (

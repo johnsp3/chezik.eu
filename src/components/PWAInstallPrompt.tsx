@@ -32,7 +32,7 @@ const PWAInstallPrompt: React.FC = () => {
     // Check if app is already installed
     const checkInstalled = () => {
       if (window.matchMedia('(display-mode: standalone)').matches || 
-          (window.navigator as any).standalone === true) {
+          (window.navigator as Navigator & { standalone?: boolean }).standalone === true) {
         setIsInstalled(true);
       }
     };
@@ -181,8 +181,8 @@ const PWAInstallPrompt: React.FC = () => {
                 <h4>📱 Mobile (iOS Safari)</h4>
                 <ol>
                   <li>Tap the Share button at the bottom</li>
-                  <li>Scroll down and tap "Add to Home Screen"</li>
-                  <li>Tap "Add" to confirm</li>
+                  <li>Scroll down and tap &quot;Add to Home Screen&quot;</li>
+                  <li>Tap &quot;Add&quot; to confirm</li>
                 </ol>
               </div>
               
@@ -190,8 +190,8 @@ const PWAInstallPrompt: React.FC = () => {
                 <h4>📱 Mobile (Android Chrome)</h4>
                 <ol>
                   <li>Tap the menu button (three dots)</li>
-                  <li>Select "Add to Home screen" or "Install app"</li>
-                  <li>Tap "Add" or "Install" to confirm</li>
+                  <li>Select &quot;Add to Home screen&quot; or &quot;Install app&quot;</li>
+                  <li>Tap &quot;Add&quot; or &quot;Install&quot; to confirm</li>
                 </ol>
               </div>
               
@@ -200,7 +200,7 @@ const PWAInstallPrompt: React.FC = () => {
                 <ol>
                   <li>Look for the install icon in the address bar</li>
                   <li>Click the install icon</li>
-                  <li>Click "Install" in the popup</li>
+                  <li>Click &quot;Install&quot; in the popup</li>
                 </ol>
               </div>
               
@@ -208,8 +208,8 @@ const PWAInstallPrompt: React.FC = () => {
                 <h4>💻 Desktop (Firefox)</h4>
                 <ol>
                   <li>Click the menu button (three lines)</li>
-                  <li>Select "Install"</li>
-                  <li>Click "Allow" to confirm</li>
+                  <li>Select &quot;Install&quot;</li>
+                  <li>Click &quot;Allow&quot; to confirm</li>
                 </ol>
               </div>
             </div>

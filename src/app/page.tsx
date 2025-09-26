@@ -2,64 +2,92 @@
  * Home Page Component
  * 
  * Main page component that displays all sections of John Chezik's website.
- * Includes hero, albums, books, blog, about, and contact sections.
+ * Includes hero, albums, books, blog, about, and contact sections with
+ * scroll-based animations using intersection observer.
+ * 
+ * @fileoverview Home page component with comprehensive section layout and
+ * scroll animations for enhanced user experience.
  * 
  * @author John Chezik
- * @version 1.0.0
+ * @version 2.0.0
  * @created 2024
+ * @updated 2024
+ * 
+ * @example
+ * ```tsx
+ * // This component is automatically rendered at the root route
+ * export default function HomePage() {
+ *   return <div>Home page content</div>;
+ * }
+ * ```
+ * 
+ * @see {@link https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#pages}
  */
 
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy } from 'react';
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
-import AlbumsSection from '@/components/AlbumsSection';
-import BooksSection from '@/components/BooksSection';
-import BlogSection from '@/components/BlogSection';
-import AboutSection from '@/components/AboutSection';
-import ContactSection from '@/components/ContactSection';
-import Footer from '@/components/Footer';
+import { useIntersectionObserver } from '@/lib/hooks/use-intersection-observer';
 
+// Lazy load non-critical components for better performance
+const AlbumsSection = lazy(() => import('@/components/AlbumsSection'));
+const BooksSection = lazy(() => import('@/components/BooksSection'));
+const BlogSection = lazy(() => import('@/components/BlogSection'));
+const PhotoGallery = lazy(() => import('@/components/PhotoGallery'));
+const AboutSection = lazy(() => import('@/components/AboutSection'));
+const ContactSection = lazy(() => import('@/components/ContactSection'));
+const Footer = lazy(() => import('@/components/Footer'));
+
+/**
+ * Home page component with scroll animations
+ * 
+ * Renders the complete home page layout with all sections and manages
+ * scroll-based animations using intersection observer.
+ * 
+ * @returns JSX element representing the home page
+ * 
+ * @example
+ * ```tsx
+ * <HomePage />
+ * ```
+ */
 export default function HomePage() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    
-    // Initialize intersection observer for scroll animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fade-in');
-        }
-      });
-    }, observerOptions);
-    
-    // Observe all sections
-    const sections = document.querySelectorAll('.section');
-    sections.forEach((section) => observer.observe(section));
-    
-    return () => observer.disconnect();
-  }, []);
+  // Initialize intersection observer for scroll animations
+  useIntersectionObserver('.section', {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px',
+    animationClass: 'animate-fade-in',
+  });
 
   return (
     <div className="page">
       <Navigation />
-      <main id="main-content" aria-label="Main content">
-        <Hero mounted={mounted} />
-        <AlbumsSection mounted={mounted} />
-        <BooksSection mounted={mounted} />
-        <BlogSection mounted={mounted} />
-        <AboutSection mounted={mounted} />
-        <ContactSection mounted={mounted} />
+        <main id="main-content" aria-label="Main content" aria-live="polite">
+        <Hero />
+        <Suspense fallback={<div className="section-loading">Loading albums...</div>}>
+          <AlbumsSection />
+        </Suspense>
+        <Suspense fallback={<div className="section-loading">Loading books...</div>}>
+          <BooksSection />
+        </Suspense>
+        <Suspense fallback={<div className="section-loading">Loading blog...</div>}>
+          <BlogSection />
+        </Suspense>
+        <Suspense fallback={<div className="section-loading">Loading gallery...</div>}>
+          <PhotoGallery />
+        </Suspense>
+        <Suspense fallback={<div className="section-loading">Loading about...</div>}>
+          <AboutSection />
+        </Suspense>
+        <Suspense fallback={<div className="section-loading">Loading contact...</div>}>
+          <ContactSection />
+        </Suspense>
       </main>
-      <Footer />
+      <Suspense fallback={<div className="footer-loading">Loading footer...</div>}>
+        <Footer />
+      </Suspense>
     </div>
   );
 }

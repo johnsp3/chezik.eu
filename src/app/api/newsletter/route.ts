@@ -1,12 +1,27 @@
 /**
  * Newsletter API Route
  * 
- * Handles newsletter subscription requests with email notifications.
- * Includes validation, rate limiting, and spam protection.
+ * Handles newsletter subscription requests with comprehensive email notifications,
+ * validation, rate limiting, and spam protection. Provides graceful degradation
+ * and proper error handling for production use.
+ * 
+ * @fileoverview Newsletter API with email notifications and comprehensive validation
  * 
  * @author John Chezik
- * @version 1.0.0
+ * @version 2.0.0
  * @created 2024
+ * @updated 2024
+ * 
+ * @example
+ * ```tsx
+ * // Subscribe to newsletter
+ * const response = await fetch('/api/newsletter', {
+ *   method: 'POST',
+ *   body: JSON.stringify({ email: 'user@example.com', name: 'John', preferences: ['albums'] })
+ * });
+ * ```
+ * 
+ * @see {@link https://nextjs.org/docs/app/building-your-application/routing/route-handlers}
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -18,12 +33,28 @@ import { sendNewsletterWelcome, sendNewsletterNotification } from '@/lib/email/r
 
 interface NewsletterSignupData {
   email: string;
-  name?: string;
-  preferences?: string[];
-  source?: string;
+  name?: string | undefined;
+  preferences?: string[] | undefined;
+  source?: string | undefined;
 }
 
-async function handleNewsletter(request: NextRequest) {
+/**
+ * Handle newsletter subscription requests
+ * 
+ * Processes newsletter subscription requests with comprehensive validation,
+ * email notifications, and proper error handling. Sends both welcome and
+ * notification emails.
+ * 
+ * @param request - The incoming request with newsletter subscription data
+ * @returns NextResponse with subscription results or error
+ * 
+ * @example
+ * ```tsx
+ * const response = await handleNewsletter(request);
+ * // Returns: { success: true, message: 'Thank you for subscribing!' }
+ * ```
+ */
+async function handleNewsletter(request: NextRequest): Promise<NextResponse> {
   try {
     const body: NewsletterSignupData = await request.json();
     const headersList = await headers();
@@ -111,7 +142,20 @@ async function handleNewsletter(request: NextRequest) {
 // Apply rate limiting to newsletter signup
 export const POST = withRateLimit(handleNewsletter, 'NEWSLETTER');
 
-export async function GET() {
+/**
+ * Handle newsletter API information requests
+ * 
+ * Returns API documentation and available endpoints for the newsletter service.
+ * 
+ * @returns NextResponse with API information and documentation
+ * 
+ * @example
+ * ```tsx
+ * const info = await GET();
+ * // Returns: { message: 'Newsletter API', version: '1.0.0', endpoints: {...} }
+ * ```
+ */
+export async function GET(): Promise<NextResponse> {
   return NextResponse.json({
     message: 'Newsletter API',
     version: '1.0.0',

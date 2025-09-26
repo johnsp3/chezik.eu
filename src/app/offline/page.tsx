@@ -2,45 +2,61 @@
  * Offline Page Component
  * 
  * Displays when the user is offline and cached content is not available.
+ * Provides offline detection, retry functionality, and cached content preview
+ * with connection tips and status indicators.
+ * 
+ * @fileoverview Offline page with real-time connection status and retry functionality
  * 
  * @author John Chezik
- * @version 1.0.0
+ * @version 2.0.0
  * @created 2024
+ * @updated 2024
+ * 
+ * @example
+ * ```tsx
+ * // This page is automatically shown when offline
+ * export default function OfflinePage() {
+ *   return <div>Offline content</div>;
+ * }
+ * ```
+ * 
+ * @see {@link https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#pages}
  */
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Wifi, WifiOff, RefreshCw, Home, Music, BookOpen } from 'lucide-react';
 import Link from 'next/link';
+import { useOnlineStatus } from '@/lib/hooks/use-online-status';
 
+/**
+ * Offline page component with connection status detection
+ * 
+ * Renders offline page with real-time connection status, retry functionality,
+ * cached content preview, and connection tips.
+ * 
+ * @returns JSX element representing the offline page
+ * 
+ * @example
+ * ```tsx
+ * <OfflinePage />
+ * ```
+ */
 export default function OfflinePage() {
-  const [isOnline, setIsOnline] = useState(false);
-  const [retryCount, setRetryCount] = useState(0);
+  // Use custom hook for online status detection
+  const { isOnline, retryCount, handleRetry } = useOnlineStatus({
+    maxRetries: 3,
+    autoRetryOnReconnect: false,
+  });
 
-  useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-
-    // Check initial online status
-    setIsOnline(navigator.onLine);
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
-
-  const handleRetry = () => {
-    setRetryCount(prev => prev + 1);
-    window.location.reload();
-  };
-
+  /**
+   * Navigate to homepage
+   */
   const handleGoHome = () => {
-    window.location.href = '/';
+    if (typeof window !== 'undefined') {
+      window.location.href = '/';
+    }
   };
 
   return (
@@ -107,7 +123,7 @@ export default function OfflinePage() {
                   <Music size={24} />
                   <div>
                     <h4>Music Albums</h4>
-                    <p>Listen to John's latest tracks</p>
+                    <p>Listen to John&apos;s latest tracks</p>
                   </div>
                 </div>
                 
@@ -115,7 +131,7 @@ export default function OfflinePage() {
                   <BookOpen size={24} />
                   <div>
                     <h4>Books</h4>
-                    <p>Explore John's published works</p>
+                    <p>Explore John&apos;s published works</p>
                   </div>
                 </div>
               </div>
@@ -137,7 +153,7 @@ export default function OfflinePage() {
 
           {/* Status Indicator */}
           <div className="connection-status">
-            <div className={`status-indicator ${isOnline ? 'online' : 'offline'}`}>
+            <div className={`status-indicator ${isOnline ? 'online' : 'offline'}`} suppressHydrationWarning>
               <div className="status-dot"></div>
               <span>{isOnline ? 'Online' : 'Offline'}</span>
             </div>

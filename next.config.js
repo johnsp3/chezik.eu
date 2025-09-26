@@ -12,16 +12,6 @@ const nextConfig = {
   // Server external packages (moved from experimental)
   serverExternalPackages: ['hls.js', '@vercel/blob', '@vercel/kv'],
   
-  // Turbopack configuration (moved from experimental.turbo)
-  turbopack: {
-    rules: {
-      '*.svg': {
-        loaders: ['@svgr/webpack'],
-        as: '*.js',
-      },
-    },
-  },
-  
   // Image optimization with Vercel enhancements
   images: {
     formats: ['image/webp', 'image/avif'],
@@ -123,15 +113,12 @@ const nextConfig = {
 
   // Vercel-optimized webpack configuration
   webpack: (config, { isServer, dev }) => {
-    // Handle audio files
+    // Handle audio files with Next.js built-in asset handling
     config.module.rules.push({
       test: /\.(mp3|wav|ogg|m4a)$/,
-      use: {
-        loader: 'file-loader',
-        options: {
-          publicPath: '/_next/static/audio/',
-          outputPath: 'static/audio/',
-        },
+      type: 'asset/resource',
+      generator: {
+        filename: 'static/audio/[name].[hash][ext]',
       },
     });
 
@@ -180,12 +167,17 @@ const nextConfig = {
 
   // Bundle analyzer
   ...(process.env.ANALYZE === 'true' && {
-    webpack: async (config) => {
-      const { BundleAnalyzerPlugin } = (await import('@next/bundle-analyzer')).default();
+    webpack: (config) => {
+      const { BundleAnalyzerPlugin } = require('@next/bundle-analyzer')({
+        enabled: true,
+        openAnalyzer: true,
+        analyzerMode: 'static',
+        reportFilename: './bundle-report.html',
+      });
       config.plugins.push(new BundleAnalyzerPlugin());
       return config;
     },
   }),
 };
 
-export default nextConfig;
+module.exports = nextConfig;

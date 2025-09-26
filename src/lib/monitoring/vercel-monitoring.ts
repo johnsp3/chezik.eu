@@ -9,7 +9,10 @@
  * @created 2024
  */
 
+import 'server-only';
 import { NextRequest, NextResponse } from 'next/server';
+import { createLogger } from './logger';
+import { getTracer, createApiSpan, withSpan } from './telemetry';
 
 // ============================================================================
 // MONITORING TYPES
@@ -23,8 +26,8 @@ export interface PerformanceMetrics {
   responseTime: number;
   userAgent: string;
   ip: string;
-  region?: string;
-  cacheStatus?: string;
+  region?: string | undefined;
+  cacheStatus?: string | undefined;
 }
 
 export interface ErrorMetrics {
@@ -32,18 +35,18 @@ export interface ErrorMetrics {
   url: string;
   method: string;
   error: string;
-  stack?: string;
+  stack?: string | undefined;
   userAgent: string;
   ip: string;
-  region?: string;
+  region?: string | undefined;
 }
 
 export interface UserBehaviorMetrics {
   timestamp: number;
   sessionId: string;
-  userId?: string;
+  userId?: string | undefined;
   action: string;
-  data?: Record<string, unknown>;
+  data?: Record<string, unknown> | undefined;
   url: string;
   userAgent: string;
   ip: string;
@@ -76,7 +79,7 @@ const metricsStore = {
 // ============================================================================
 
 /**
- * Track performance metrics
+ * Track performance metrics with enhanced logging
  */
 export function trackPerformance(
   request: NextRequest,
@@ -105,22 +108,45 @@ export function trackPerformance(
     metricsStore.performance = metricsStore.performance.slice(-1000);
   }
   
-  console.log(`[PERFORMANCE] ${request.method} ${request.url} - ${responseTime}ms - ${response.status}`);
+  // Use structured logger
+  const logger = createLogger({
+    requestId: request.headers.get('x-request-id') ?? undefined,
+    traceId: request.headers.get('x-trace-id') ?? undefined,
+    spanId: request.headers.get('x-span-id') ?? undefined,
+  });
+  
+  logger.performance('api_request', responseTime, {
+    method: request.method,
+    url: request.url,
+    statusCode: response.status,
+    cacheStatus: response.headers.get('x-cache'),
+    region: request.headers.get('x-vercel-ip-country'),
+  });
 }
 
 /**
- * Performance monitoring middleware
+ * Performance monitoring middleware with OpenTelemetry spans
  */
 export function withPerformanceMonitoring<T extends unknown[]>(
   handler: (request: NextRequest, ...args: T) => Promise<NextResponse>
 ) {
   return async (request: NextRequest, ...args: T): Promise<NextResponse> => {
     const startTime = Date.now();
+    const tracer = getTracer();
+    const span = createApiSpan(request, 'api_handler');
     
     try {
-      const response = await handler(request, ...args);
-      trackPerformance(request, response, startTime);
-      return response;
+      const response = await withSpan(span, async () => {
+        const result = await handler(request, ...args);
+        trackPerformance(request, result, startTime);
+        return result;
+      });
+      
+      return tracer.addTraceHeaders(response, {
+        traceId: span['context'].traceId,
+        spanId: span['context'].spanId,
+        parentSpanId: span['context'].parentSpanId,
+      });
     } catch (error) {
       // Create error response for tracking
       const errorResponse = new NextResponse('Internal Server Error', { status: 500 });
@@ -135,7 +161,7 @@ export function withPerformanceMonitoring<T extends unknown[]>(
 // ============================================================================
 
 /**
- * Track error metrics
+ * Track error metrics with enhanced logging
  */
 export function trackError(
   request: NextRequest,
@@ -160,10 +186,24 @@ export function trackError(
     metricsStore.errors = metricsStore.errors.slice(-500);
   }
   
-  console.error(`[ERROR] ${request.method} ${request.url} - ${error.message}`, {
-    stack: error.stack,
-    additionalData,
+  // Use structured logger
+  const logger = createLogger({
+    requestId: request.headers.get('x-request-id') ?? undefined,
+    traceId: request.headers.get('x-trace-id') ?? undefined,
+    spanId: request.headers.get('x-span-id') ?? undefined,
   });
+  
+  logger.error(
+    `API Error: ${request.method} ${request.url}`,
+    error,
+    {
+      method: request.method,
+      url: request.url,
+      userAgent: request.headers.get('user-agent'),
+      region: request.headers.get('x-vercel-ip-country'),
+      ...additionalData,
+    }
+  );
 }
 
 /**
@@ -187,7 +227,7 @@ export function withErrorMonitoring(
 // ============================================================================
 
 /**
- * Track user behavior
+ * Track user behavior with enhanced logging
  */
 export function trackUserBehavior(
   request: NextRequest,
@@ -213,7 +253,21 @@ export function trackUserBehavior(
     metricsStore.userBehavior = metricsStore.userBehavior.slice(-2000);
   }
   
-  console.log(`[USER_BEHAVIOR] ${action} - ${sessionId}`, data);
+  // Use structured logger
+  const logger = createLogger({
+    requestId: request.headers.get('x-request-id') ?? undefined,
+    traceId: request.headers.get('x-trace-id') ?? undefined,
+    spanId: request.headers.get('x-span-id') ?? undefined,
+    sessionId,
+  });
+  
+  logger.info(`User Behavior: ${action}`, {
+    action,
+    sessionId,
+    url: request.url,
+    userAgent: request.headers.get('user-agent'),
+    ...data,
+  });
 }
 
 /**
@@ -296,7 +350,7 @@ export function getPerformanceAnalytics(timeRange: number = 3600000): {
   // Group by endpoint
   const endpointStats = new Map<string, { count: number; totalTime: number }>();
   recentMetrics.forEach(m => {
-    const endpoint = m.url.split('?')[0]; // Remove query params
+    const endpoint = m.url.split('?')[0] ?? m.url; // Remove query params
     const existing = endpointStats.get(endpoint) || { count: 0, totalTime: 0 };
     existing.count++;
     existing.totalTime += m.responseTime;
@@ -342,7 +396,7 @@ export function getErrorAnalytics(timeRange: number = 3600000): {
   // Group by error type
   const errorTypeStats = new Map<string, number>();
   recentErrors.forEach(e => {
-    const errorType = e.error.split(':')[0]; // Get error type
+    const errorType = e.error.split(':')[0] ?? e.error; // Get error type
     errorTypeStats.set(errorType, (errorTypeStats.get(errorType) || 0) + 1);
   });
   
@@ -353,7 +407,7 @@ export function getErrorAnalytics(timeRange: number = 3600000): {
   // Group by endpoint
   const endpointStats = new Map<string, number>();
   recentErrors.forEach(e => {
-    const endpoint = e.url.split('?')[0];
+    const endpoint = e.url.split('?')[0] ?? e.url;
     endpointStats.set(endpoint, (endpointStats.get(endpoint) || 0) + 1);
   });
   
@@ -421,7 +475,7 @@ function getClientIP(request: NextRequest): string {
   
   if (cfConnectingIP) return cfConnectingIP;
   if (realIP) return realIP;
-  if (forwardedFor) return forwardedFor.split(',')[0].trim();
+  if (forwardedFor) return (forwardedFor.split(',')[0] ?? forwardedFor).trim();
   
   return 'unknown';
 }

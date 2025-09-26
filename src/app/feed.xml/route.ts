@@ -1,15 +1,47 @@
 /**
- * RSS Feed Generator
+ * RSS Feed Generator Route
  * 
- * Generates an RSS feed for blog posts and updates.
+ * Generates an RSS feed for blog posts, album releases, and book updates.
+ * Provides comprehensive RSS 2.0 feed with proper XML structure and caching
+ * headers for optimal performance and SEO.
+ * 
+ * @fileoverview RSS feed generation with XML structure and caching
  * 
  * @author John Chezik
- * @version 1.0.0
+ * @version 2.0.0
  * @created 2024
+ * @updated 2024
+ * 
+ * @example
+ * ```tsx
+ * // Access via: https://chezik.eu/feed.xml
+ * // Returns: RSS 2.0 XML feed with latest content
+ * export async function GET() {
+ *   return new NextResponse(rssFeed, {
+ *     headers: { 'Content-Type': 'application/xml' }
+ *   });
+ * }
+ * ```
+ * 
+ * @see {@link https://nextjs.org/docs/app/building-your-application/routing/route-handlers}
  */
 
 import { NextResponse } from 'next/server'
 
+/**
+ * Generate RSS feed response
+ * 
+ * Creates a comprehensive RSS 2.0 feed containing the latest album releases,
+ * book updates, and blog posts with proper XML structure and caching headers.
+ * 
+ * @returns NextResponse with RSS XML content and proper headers
+ * 
+ * @example
+ * ```tsx
+ * const response = await GET();
+ * // Returns: NextResponse with RSS XML and caching headers
+ * ```
+ */
 export async function GET() {
   const baseUrl = 'https://chezik.eu'
   const currentDate = new Date().toISOString()

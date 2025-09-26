@@ -39,7 +39,7 @@ export interface AudioPlayerState {
   isMuted: boolean;
   isLoading: boolean;
   hasError: boolean;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   playbackRate: number; // 0.5, 0.75, 1, 1.25, 1.5, 2
   isLooping: boolean;
   isShuffled: boolean;
@@ -125,9 +125,9 @@ export interface AudioVisualizationData {
 export interface AudioError {
   code: string;
   message: string;
-  details?: unknown;
+  details?: unknown | undefined;
   timestamp: Date;
-  trackId?: number;
+  trackId?: number | undefined;
 }
 
 /**

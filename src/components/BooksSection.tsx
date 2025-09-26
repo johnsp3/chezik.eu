@@ -12,6 +12,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { BookOpen } from 'lucide-react';
 import Image from 'next/image';
 
@@ -31,11 +32,10 @@ interface Book {
 }
 
 interface BooksSectionProps {
-  mounted?: boolean;
+  className?: string;
 }
 
-const BooksSection: React.FC<BooksSectionProps> = ({ mounted: propMounted }) => {
-  const [mounted, setMounted] = useState(false);
+const BooksSection: React.FC<BooksSectionProps> = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [previewBook, setPreviewBook] = useState<Book | null>(null);
 
@@ -72,8 +72,28 @@ const BooksSection: React.FC<BooksSectionProps> = ({ mounted: propMounted }) => 
   ];
 
   useEffect(() => {
-    setMounted(true);
+    // Component mounted
   }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && showPreview) {
+        closePreview();
+      }
+    };
+
+    if (showPreview) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [showPreview]);
 
 
   const handlePreviewBook = (book: Book) => {
@@ -117,11 +137,11 @@ Your strength isn't about being inflexible—it's about being reliable. When you
   };
 
 
-  return (
+  const sectionContent = (
     <section id="books" className="section books-section">
       <div className="container">
         {/* Section Header */}
-        <div className={`section-header ${(mounted || propMounted) ? 'mounted' : ''}`}>
+        <div className="section-header">
           <div className="section-badge">
             <BookOpen size={16} />
             <span>Published Works</span>
@@ -136,11 +156,12 @@ Your strength isn't about being inflexible—it's about being reliable. When you
         </div>
 
         {/* Books Display */}
-        <div className={`featured-books ${(mounted || propMounted) ? 'mounted' : ''}`}>
+        <div className="featured-books">
           <div className="featured-grid">
             {books.filter(book => book.featured).map((book, index) => (
               <div 
-                key={book.id} 
+                key={book.id}
+                id={`book-${book.title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')}`}
                 className={`featured-book ${book.color}`}
                 style={{ '--delay': `${index * 150}ms` } as React.CSSProperties}
               >
@@ -195,72 +216,99 @@ Your strength isn't about being inflexible—it's about being reliable. When you
         </div>
 
       </div>
+    </section>
+  );
 
-
-      {/* Book Preview Modal */}
-      {showPreview && previewBook && (
-        <div className="modal-overlay" onClick={closePreview}>
-          <div className="preview-modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3>Preview: {previewBook.title}</h3>
-              <button className="modal-close" onClick={closePreview}>
-                ×
-              </button>
-            </div>
-            
-            <div className="preview-content">
-              {previewBook.title === "The Alpha Code" ? (
-                <>
-                  {/* Table of Contents */}
-                  <div className="preview-section">
-                    <h3 className="preview-section-title">Table of Contents</h3>
-                    <ul className="toc-list">
-                      {alfaCodePreview.tableOfContents.map((item, index) => (
-                        <li key={index} className="toc-item">{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  
-                  {/* Introduction */}
-                  <div className="preview-section">
-                    <h3 className="preview-section-title">Introduction</h3>
-                    <p className="preview-text">{alfaCodePreview.introduction}</p>
-                  </div>
-                  
-                  {/* Chapter 1 */}
-                  <div className="preview-section">
-                    <h3 className="preview-section-title">{alfaCodePreview.chapter1.title}</h3>
-                    {alfaCodePreview.chapter1.sections.map((section, index) => (
-                      <div key={index} className="chapter-section">
-                        <h4 className="chapter-subtitle">{section.title}</h4>
-                        <p className="preview-text">{section.content}</p>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div className="preview-footer">
-                    <p className="preview-note">This preview contains the Introduction and Chapter 1. The complete book includes 5 comprehensive chapters covering all aspects of confident leadership and authentic attraction.</p>
-                  </div>
-                </>
-              ) : (
-                <div className="preview-section">
-                  <p className="preview-text">Preview content coming soon for {previewBook.title}.</p>
-                </div>
-              )}
-              
-              <div className="preview-actions">
-                <button
-                  className="btn btn-secondary"
-                  onClick={closePreview}
-                >
-                  Close Preview
-                </button>
-              </div>
-            </div>
+  // Render modal as portal to document body to avoid layout issues
+  const modalContent = showPreview && previewBook && (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex
+    <div 
+      className="modal-overlay" 
+      onClick={closePreview}
+      onKeyDown={(e) => e.key === 'Escape' && closePreview()}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Book preview modal"
+// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+      tabIndex={0}
+    >
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex */}
+      <div 
+        className="modal-content" 
+        onClick={(e) => e.stopPropagation()}
+        role="document"
+        tabIndex={-1}
+      >
+        <button className="modal-close" onClick={closePreview}>
+          ×
+        </button>
+        
+        <div className="modal-header">
+          <div className="modal-category bg-green-500/10 text-green-400 border-green-500/30">
+            📚 Book Preview
+          </div>
+          <h2 className="modal-title">{previewBook.title}</h2>
+          <div className="modal-meta">
+            <span className="post-date">{previewBook.year} • {previewBook.genre} • {previewBook.pages} pages</span>
           </div>
         </div>
-      )}
-    </section>
+        
+        <div className="modal-body">
+          <div className="post-content">
+            {previewBook.title === "The Alpha Code" ? (
+              <>
+                {/* Table of Contents */}
+                <div className="preview-section mb-8">
+                  <h3 className="text-xl font-semibold text-white mb-4">Table of Contents</h3>
+                  <ul className="space-y-2">
+                    {alfaCodePreview.tableOfContents.map((item, index) => (
+                      <li key={index} className="text-gray-300 flex items-start">
+                        <span className="text-green-400 mr-2">•</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                {/* Introduction */}
+                <div className="preview-section mb-8">
+                  <h3 className="text-xl font-semibold text-white mb-4">Introduction</h3>
+                  <p className="content-paragraph">{alfaCodePreview.introduction}</p>
+                </div>
+                
+                {/* Chapter 1 */}
+                <div className="preview-section mb-8">
+                  <h3 className="text-xl font-semibold text-white mb-4">{alfaCodePreview.chapter1.title}</h3>
+                  {alfaCodePreview.chapter1.sections.map((section, index) => (
+                    <div key={index} className="mb-6">
+                      <h4 className="text-lg font-medium text-green-400 mb-3">{section.title}</h4>
+                      <p className="content-paragraph">{section.content}</p>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="preview-footer mt-8 p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+                  <p className="text-gray-300 text-sm">
+                    This preview contains the Introduction and Chapter 1. The complete book includes 5 comprehensive chapters covering all aspects of confident leadership and authentic attraction.
+                  </p>
+                </div>
+              </>
+            ) : (
+              <div className="preview-section">
+                <p className="content-paragraph">Preview content coming soon for {previewBook.title}.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      {sectionContent}
+      {typeof window !== 'undefined' && modalContent && createPortal(modalContent, document.body)}
+    </>
   );
 };
 

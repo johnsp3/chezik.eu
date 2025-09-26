@@ -2,11 +2,26 @@
  * Analytics API Route
  * 
  * Provides comprehensive analytics and monitoring data for the application.
- * Includes performance metrics, error tracking, and user behavior analytics.
+ * Includes performance metrics, error tracking, and user behavior analytics
+ * with proper rate limiting and security measures.
+ * 
+ * @fileoverview Analytics API with comprehensive monitoring and performance tracking
  * 
  * @author John Chezik
- * @version 1.0.0
+ * @version 2.0.0
  * @created 2024
+ * @updated 2024
+ * 
+ * @example
+ * ```tsx
+ * // Get performance analytics
+ * const response = await fetch('/api/analytics?type=performance&timeRange=3600000');
+ * 
+ * // Get overview analytics
+ * const overview = await fetch('/api/analytics?type=overview');
+ * ```
+ * 
+ * @see {@link https://nextjs.org/docs/app/building-your-application/routing/route-handlers}
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -17,7 +32,22 @@ import { withRateLimit } from '@/lib/security/vercel-security';
 // ANALYTICS HANDLERS
 // ============================================================================
 
-async function handleAnalytics(request: NextRequest) {
+/**
+ * Handle analytics data requests
+ * 
+ * Processes analytics requests with different types (performance, errors, user-behavior, overview, raw)
+ * and returns appropriate data based on the request parameters.
+ * 
+ * @param request - The incoming request object
+ * @returns NextResponse with analytics data or error
+ * 
+ * @example
+ * ```tsx
+ * const response = await handleAnalytics(request);
+ * // Returns: { success: true, type: 'performance', data: {...} }
+ * ```
+ */
+async function handleAnalytics(request: NextRequest): Promise<NextResponse> {
   try {
     const url = new URL(request.url);
     const type = url.searchParams.get('type') || 'overview';
@@ -77,7 +107,20 @@ async function handleAnalytics(request: NextRequest) {
   }
 }
 
-async function handleAnalyticsInfo() {
+/**
+ * Handle analytics API information requests
+ * 
+ * Returns API documentation and available endpoints for the analytics service.
+ * 
+ * @returns NextResponse with API information and documentation
+ * 
+ * @example
+ * ```tsx
+ * const info = await handleAnalyticsInfo();
+ * // Returns: { message: 'Analytics API', version: '1.0.0', endpoints: {...} }
+ * ```
+ */
+async function handleAnalyticsInfo(): Promise<NextResponse> {
   return NextResponse.json({
     message: 'Analytics API',
     version: '1.0.0',

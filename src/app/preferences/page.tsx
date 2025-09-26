@@ -2,85 +2,90 @@
  * Email Preferences Page
  * 
  * Beautiful email preferences page matching the site's stunning design aesthetic.
+ * Provides comprehensive email preference management with real-time validation,
+ * beautiful UI components, and seamless API integration.
+ * 
+ * @fileoverview Email preferences page with comprehensive preference management
  * 
  * @author John Chezik
- * @version 1.0.0
+ * @version 2.0.0
  * @created 2024
+ * @updated 2024
+ * 
+ * @example
+ * ```tsx
+ * // Access via URL: /preferences?email=user@example.com&token=abc123
+ * <PreferencesPage />
+ * ```
+ * 
+ * @see {@link https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#pages}
  */
 
 'use client';
 
-import React, { useState, useEffect, useCallback, Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Settings, CheckCircle, AlertCircle, ArrowLeft, Save, Mail, Music, BookOpen, Camera, Calendar, FileText, Star, ShoppingBag, Users, Clock, Globe, Monitor } from 'lucide-react';
+import { 
+  Settings, 
+  CheckCircle, 
+  AlertCircle, 
+  ArrowLeft, 
+  Save, 
+  Mail, 
+  Music, 
+  BookOpen, 
+  Camera, 
+  Calendar, 
+  FileText, 
+  Star, 
+  ShoppingBag, 
+  Users, 
+  Clock, 
+  Globe, 
+  Monitor 
+} from 'lucide-react';
+import { 
+  useEmailPreferences,
+  CONTENT_TYPES,
+  FREQUENCY_OPTIONS,
+  FORMAT_OPTIONS,
+  TIMEZONE_OPTIONS,
+  type EmailPreferences
+} from '@/lib/email/preferences-manager';
 
-interface EmailPreferences {
-  frequency: string;
-  content_types: {
-    albums: boolean;
-    books: boolean;
-    studio_updates: boolean;
-    events: boolean;
-    blog_posts: boolean;
-    exclusive_content: boolean;
-    merchandise: boolean;
-    collaborations: boolean;
-  };
-  timezone: string;
-  language: string;
-  digest_format: string;
-  unsubscribe_all: boolean;
-}
-
+/**
+ * Preferences page content component
+ * 
+ * Renders the email preferences form with comprehensive preference management,
+ * beautiful UI components, and real-time validation.
+ * 
+ * @returns JSX element representing the preferences page content
+ * 
+ * @example
+ * ```tsx
+ * <PreferencesPageContent />
+ * ```
+ */
 function PreferencesPageContent() {
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState('');
-  const [token, setToken] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = React.useState<string>('');
+  const [token, setToken] = React.useState<string>('');
   
-  const [preferences, setPreferences] = useState<EmailPreferences>({
-    frequency: 'weekly',
-    content_types: {
-      albums: true,
-      books: true,
-      studio_updates: true,
-      events: true,
-      blog_posts: true,
-      exclusive_content: true,
-      merchandise: false,
-      collaborations: true,
-    },
-    timezone: 'America/New_York',
-    language: 'en',
-    digest_format: 'html',
-    unsubscribe_all: false,
-  });
+  // Use the email preferences hook
+  const {
+    preferences,
+    isLoading,
+    isSaving,
+    status,
+    message,
+    loadPreferences,
+    savePreferences,
+    updatePreference,
+    updateContentType,
+  } = useEmailPreferences();
 
-  const loadPreferences = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(`/api/email/preferences?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`);
-      const result = await response.json();
-      
-      if (response.ok && result.success) {
-        setPreferences(result.preferences || preferences);
-      } else {
-        setStatus('error');
-        setMessage(result.error?.message || 'Failed to load preferences.');
-      }
-    } catch (error) {
-      console.error('Load preferences error:', error);
-      setStatus('error');
-      setMessage('Failed to load preferences. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [email, token, preferences]);
-
+  // Load URL parameters and preferences
   useEffect(() => {
     const emailParam = searchParams.get('email');
     const tokenParam = searchParams.get('token');
@@ -90,73 +95,38 @@ function PreferencesPageContent() {
     
     // Load preferences if we have valid params
     if (emailParam && tokenParam) {
-      loadPreferences();
+      loadPreferences(emailParam, tokenParam);
     }
   }, [searchParams, loadPreferences]);
 
-  const handleSave = async (e: React.FormEvent) => {
+  /**
+   * Handle form submission
+   * 
+   * @param e - Form submit event
+   */
+  const handleSave = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     
     if (!email || !token) {
-      setStatus('error');
-      setMessage('Invalid preferences link. Please contact support.');
       return;
     }
 
-    setIsSaving(true);
-    setStatus('idle');
-
-    try {
-      const response = await fetch('/api/email/preferences', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          token,
-          preferences
-        })
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        setStatus('success');
-        setMessage(result.message || 'Preferences saved successfully!');
-      } else {
-        setStatus('error');
-        setMessage(result.error?.message || 'Failed to save preferences. Please try again.');
-      }
-    } catch (error) {
-      console.error('Save preferences error:', error);
-      setStatus('error');
-      setMessage('Something went wrong. Please try again or contact support.');
-    } finally {
-      setIsSaving(false);
-    }
+    await savePreferences(email, token, preferences);
   };
 
-  const updateContentType = (type: keyof EmailPreferences['content_types'], value: boolean) => {
-    setPreferences(prev => ({
-      ...prev,
-      content_types: {
-        ...prev.content_types,
-        [type]: value
-      }
-    }));
-  };
-
-  const contentTypes = [
-    { key: 'albums', label: 'New Albums', icon: Music, color: 'text-blue-400' },
-    { key: 'books', label: 'Book Updates', icon: BookOpen, color: 'text-green-400' },
-    { key: 'studio_updates', label: 'Studio Sessions', icon: Camera, color: 'text-purple-400' },
-    { key: 'events', label: 'Live Events', icon: Calendar, color: 'text-orange-400' },
-    { key: 'blog_posts', label: 'Blog Posts', icon: FileText, color: 'text-indigo-400' },
-    { key: 'exclusive_content', label: 'Exclusive Content', icon: Star, color: 'text-yellow-400' },
-    { key: 'merchandise', label: 'Merchandise', icon: ShoppingBag, color: 'text-pink-400' },
-    { key: 'collaborations', label: 'Collaborations', icon: Users, color: 'text-teal-400' },
-  ];
+  /**
+   * Icon mapping for content types
+   */
+  const iconMap = {
+    Music,
+    BookOpen,
+    Camera,
+    Calendar,
+    FileText,
+    Star,
+    ShoppingBag,
+    Users,
+  } as const;
 
   // Always render the same structure to avoid hydration mismatch
 
@@ -241,19 +211,14 @@ function PreferencesPageContent() {
                   Email Frequency
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {[
-                    { value: 'daily', label: 'Daily', desc: 'Get updates every day' },
-                    { value: 'weekly', label: 'Weekly', desc: 'Weekly digest (recommended)' },
-                    { value: 'monthly', label: 'Monthly', desc: 'Monthly summary' },
-                    { value: 'major_only', label: 'Major Updates Only', desc: 'Only important announcements' },
-                  ].map((option) => (
+                  {FREQUENCY_OPTIONS.map((option) => (
                     <label key={option.value} className="flex items-center p-4 bg-white/5 border border-white/20 rounded-xl cursor-pointer hover:bg-white/10 transition-all duration-200">
                       <input
                         type="radio"
                         name="frequency"
                         value={option.value}
                         checked={preferences.frequency === option.value}
-                        onChange={(e) => setPreferences(prev => ({ ...prev, frequency: e.target.value }))}
+                        onChange={(e) => updatePreference('frequency', e.target.value as EmailPreferences['frequency'])}
                         className="sr-only"
                       />
                       <div className={`w-4 h-4 rounded-full border-2 mr-3 flex items-center justify-center ${
@@ -281,7 +246,9 @@ function PreferencesPageContent() {
                   Content Types
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {contentTypes.map(({ key, label, icon: Icon, color }) => (
+                  {CONTENT_TYPES.map(({ key, label, icon: iconName, color }) => {
+                    const Icon = iconMap[iconName as keyof typeof iconMap];
+                    return (
                     <label key={key} className="flex items-center p-4 bg-white/5 border border-white/20 rounded-xl cursor-pointer hover:bg-white/10 transition-all duration-200">
                       <input
                         type="checkbox"
@@ -301,7 +268,8 @@ function PreferencesPageContent() {
                       <Icon className={`w-5 h-5 mr-3 ${color}`} />
                       <span className="text-white font-medium">{label}</span>
                     </label>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 
@@ -312,18 +280,14 @@ function PreferencesPageContent() {
                   Email Format
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {[
-                    { value: 'html', label: 'HTML', desc: 'Rich formatting' },
-                    { value: 'text', label: 'Text Only', desc: 'Simple text' },
-                    { value: 'both', label: 'Both', desc: 'HTML with text fallback' },
-                  ].map((option) => (
+                  {FORMAT_OPTIONS.map((option) => (
                     <label key={option.value} className="flex items-center p-4 bg-white/5 border border-white/20 rounded-xl cursor-pointer hover:bg-white/10 transition-all duration-200">
                       <input
                         type="radio"
                         name="digest_format"
                         value={option.value}
                         checked={preferences.digest_format === option.value}
-                        onChange={(e) => setPreferences(prev => ({ ...prev, digest_format: e.target.value }))}
+                        onChange={(e) => updatePreference('digest_format', e.target.value as EmailPreferences['digest_format'])}
                         className="sr-only"
                       />
                       <div className={`w-4 h-4 rounded-full border-2 mr-3 flex items-center justify-center ${
@@ -352,17 +316,14 @@ function PreferencesPageContent() {
                 </h3>
                 <select
                   value={preferences.timezone}
-                  onChange={(e) => setPreferences(prev => ({ ...prev, timezone: e.target.value }))}
+                  onChange={(e) => updatePreference('timezone', e.target.value)}
                   className="w-full px-4 py-4 bg-white/5 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 backdrop-blur-sm appearance-none cursor-pointer"
                 >
-                  <option value="America/New_York" className="bg-gray-800">Eastern Time (ET)</option>
-                  <option value="America/Chicago" className="bg-gray-800">Central Time (CT)</option>
-                  <option value="America/Denver" className="bg-gray-800">Mountain Time (MT)</option>
-                  <option value="America/Los_Angeles" className="bg-gray-800">Pacific Time (PT)</option>
-                  <option value="Europe/London" className="bg-gray-800">London (GMT)</option>
-                  <option value="Europe/Paris" className="bg-gray-800">Paris (CET)</option>
-                  <option value="Asia/Tokyo" className="bg-gray-800">Tokyo (JST)</option>
-                  <option value="Australia/Sydney" className="bg-gray-800">Sydney (AEST)</option>
+                  {TIMEZONE_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value} className="bg-gray-800">
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
               </div>
 

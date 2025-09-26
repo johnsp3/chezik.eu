@@ -1,11 +1,30 @@
 /**
  * Email Preferences API Route
  * 
- * Handles email preferences retrieval and updates with proper validation and security.
+ * Handles email preferences retrieval and updates with comprehensive validation,
+ * security measures, and proper error handling. Supports both GET and POST operations
+ * for managing user email preferences.
+ * 
+ * @fileoverview Email preferences API with comprehensive validation and security
  * 
  * @author John Chezik
- * @version 1.0.0
+ * @version 2.0.0
  * @created 2024
+ * @updated 2024
+ * 
+ * @example
+ * ```tsx
+ * // Get preferences
+ * const response = await fetch('/api/email/preferences?email=user@example.com&token=abc123');
+ * 
+ * // Update preferences
+ * const update = await fetch('/api/email/preferences', {
+ *   method: 'POST',
+ *   body: JSON.stringify({ email: 'user@example.com', token: 'abc123', preferences: {...} })
+ * });
+ * ```
+ * 
+ * @see {@link https://nextjs.org/docs/app/building-your-application/routing/route-handlers}
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -20,7 +39,22 @@ interface PreferencesRequest {
   preferences?: Record<string, unknown>;
 }
 
-export async function GET(request: NextRequest) {
+/**
+ * Handle email preferences retrieval requests
+ * 
+ * Retrieves user email preferences based on email and token validation.
+ * Includes comprehensive validation and security measures.
+ * 
+ * @param request - The incoming request with email and token parameters
+ * @returns NextResponse with preferences data or error
+ * 
+ * @example
+ * ```tsx
+ * const response = await GET(request);
+ * // Returns: { success: true, preferences: {...} }
+ * ```
+ */
+export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const { searchParams } = new URL(request.url);
     const email = searchParams.get('email');
@@ -98,7 +132,22 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+/**
+ * Handle email preferences update requests
+ * 
+ * Updates user email preferences based on email and token validation.
+ * Includes comprehensive validation and security measures.
+ * 
+ * @param request - The incoming request with preferences data
+ * @returns NextResponse with update results or error
+ * 
+ * @example
+ * ```tsx
+ * const response = await POST(request);
+ * // Returns: { success: true, message: 'Preferences updated successfully' }
+ * ```
+ */
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const body: PreferencesRequest = await request.json();
     const headersList = await headers();

@@ -2,14 +2,47 @@
  * Dynamic Sitemap Generator
  * 
  * Generates a dynamic sitemap for better SEO and search engine indexing.
+ * Provides comprehensive URL mapping with priority and change frequency
+ * optimization for all major sections of the website.
+ * 
+ * @fileoverview Dynamic sitemap generation with SEO optimization
  * 
  * @author John Chezik
- * @version 1.0.0
+ * @version 2.0.0
  * @created 2024
+ * @updated 2024
+ * 
+ * @example
+ * ```tsx
+ * // This function is automatically called by Next.js
+ * // Access via: https://chezik.eu/sitemap.xml
+ * export default function sitemap(): MetadataRoute.Sitemap {
+ *   return [
+ *     { url: 'https://chezik.eu', priority: 1.0, changeFrequency: 'weekly' }
+ *   ];
+ * }
+ * ```
+ * 
+ * @see {@link https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap}
  */
 
 import { MetadataRoute } from 'next'
 
+/**
+ * Generate sitemap configuration
+ * 
+ * Creates a comprehensive sitemap configuration that includes all major
+ * sections of the website with optimized priority and change frequency
+ * settings for search engine indexing.
+ * 
+ * @returns Sitemap configuration array
+ * 
+ * @example
+ * ```tsx
+ * const sitemapConfig = sitemap();
+ * // Returns: [{ url: 'https://chezik.eu', priority: 1.0, ... }, ...]
+ * ```
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://chezik.eu'
   const currentDate = new Date().toISOString()

@@ -1,11 +1,24 @@
 /**
- * Unsubscribe Page
+ * Unsubscribe Page Component
  * 
  * Beautiful unsubscribe page matching the site's stunning design aesthetic.
+ * Provides comprehensive unsubscribe functionality with real-time validation,
+ * beautiful UI components, and seamless API integration.
+ * 
+ * @fileoverview Unsubscribe page with comprehensive unsubscribe management
  * 
  * @author John Chezik
- * @version 1.0.0
+ * @version 2.0.0
  * @created 2024
+ * @updated 2024
+ * 
+ * @example
+ * ```tsx
+ * // Access via URL: /unsubscribe?email=user@example.com&token=abc123
+ * <UnsubscribePage />
+ * ```
+ * 
+ * @see {@link https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#pages}
  */
 
 'use client';
@@ -15,6 +28,19 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Mail, CheckCircle, AlertCircle, ArrowLeft, Music, BookOpen, Camera, Calendar } from 'lucide-react';
 
+/**
+ * Unsubscribe page content component
+ * 
+ * Renders the unsubscribe form with comprehensive unsubscribe management,
+ * beautiful UI components, and real-time validation.
+ * 
+ * @returns JSX element representing the unsubscribe page content
+ * 
+ * @example
+ * ```tsx
+ * <UnsubscribePageContent />
+ * ```
+ */
 function UnsubscribePageContent() {
   const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
@@ -32,7 +58,13 @@ function UnsubscribePageContent() {
     if (tokenParam) setToken(tokenParam);
   }, [searchParams]);
 
-  const handleUnsubscribe = async (e: React.FormEvent) => {
+  /**
+   * Handle unsubscribe form submission
+   * 
+   * @param e - Form submit event
+   * @throws {Error} When API request fails
+   */
+  const handleUnsubscribe = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     
     if (!email || !token) {
@@ -265,6 +297,19 @@ function UnsubscribePageContent() {
   );
 }
 
+/**
+ * Unsubscribe page component with Suspense wrapper
+ * 
+ * Main unsubscribe page component that wraps the content with Suspense
+ * for proper loading state handling and error boundaries.
+ * 
+ * @returns JSX element representing the unsubscribe page with Suspense
+ * 
+ * @example
+ * ```tsx
+ * <UnsubscribePage />
+ * ```
+ */
 export default function UnsubscribePage() {
   return (
     <Suspense fallback={

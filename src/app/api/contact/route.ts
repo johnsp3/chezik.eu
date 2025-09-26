@@ -1,12 +1,27 @@
 /**
  * Contact Form API Route
  * 
- * Handles contact form submissions with email notifications.
- * Includes validation, rate limiting, and spam protection.
+ * Handles contact form submissions with comprehensive email notifications,
+ * validation, rate limiting, and spam protection. Provides graceful degradation
+ * and proper error handling for production use.
+ * 
+ * @fileoverview Contact form API with email notifications and comprehensive validation
  * 
  * @author John Chezik
- * @version 1.0.0
+ * @version 2.0.0
  * @created 2024
+ * @updated 2024
+ * 
+ * @example
+ * ```tsx
+ * // Submit contact form
+ * const response = await fetch('/api/contact', {
+ *   method: 'POST',
+ *   body: JSON.stringify({ name: 'John', email: 'john@example.com', message: 'Hello' })
+ * });
+ * ```
+ * 
+ * @see {@link https://nextjs.org/docs/app/building-your-application/routing/route-handlers}
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -23,7 +38,22 @@ interface ContactFormData {
   message: string;
 }
 
-async function handleContact(request: NextRequest) {
+/**
+ * Handle contact form submissions
+ * 
+ * Processes contact form submissions with comprehensive validation, email notifications,
+ * and proper error handling. Sends both confirmation and notification emails.
+ * 
+ * @param request - The incoming request with contact form data
+ * @returns NextResponse with submission results or error
+ * 
+ * @example
+ * ```tsx
+ * const response = await handleContact(request);
+ * // Returns: { success: true, message: 'Thank you for your message!' }
+ * ```
+ */
+async function handleContact(request: NextRequest): Promise<NextResponse> {
   try {
     const body: ContactFormData = await request.json();
     const headersList = await headers();
@@ -32,7 +62,7 @@ async function handleContact(request: NextRequest) {
     const clientIP = headersList.get('x-forwarded-for') || 
                     headersList.get('x-real-ip') || 
                     'unknown';
-    const userAgent = headersList.get('user-agent') || 'unknown';
+    // const userAgent = headersList.get('user-agent') || 'unknown';
     
     // Enhanced validation
     if (!body.name || !body.email || !body.message) {
@@ -152,7 +182,20 @@ async function handleContact(request: NextRequest) {
 // Apply rate limiting to contact form
 export const POST = withRateLimit(handleContact, 'CONTACT_FORM');
 
-export async function GET() {
+/**
+ * Handle contact API information requests
+ * 
+ * Returns API documentation and available endpoints for the contact form service.
+ * 
+ * @returns NextResponse with API information and documentation
+ * 
+ * @example
+ * ```tsx
+ * const info = await GET();
+ * // Returns: { message: 'Contact Form API', version: '1.0.0', endpoints: {...} }
+ * ```
+ */
+export async function GET(): Promise<NextResponse> {
   return NextResponse.json({
     message: 'Contact Form API',
     version: '1.0.0',

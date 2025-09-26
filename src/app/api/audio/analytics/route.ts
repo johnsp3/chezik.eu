@@ -1,12 +1,27 @@
 /**
  * Audio Analytics API Route
  * 
- * Collects and processes audio player analytics data.
- * Provides insights into user listening behavior and performance metrics.
+ * Collects and processes audio player analytics data with comprehensive
+ * event tracking, performance metrics, and user behavior insights.
+ * Optimized for edge runtime with proper validation and error handling.
+ * 
+ * @fileoverview Audio analytics API with comprehensive event tracking and performance monitoring
  * 
  * @author John Chezik
- * @version 1.0.0
+ * @version 2.0.0
  * @created 2024
+ * @updated 2024
+ * 
+ * @example
+ * ```tsx
+ * // Submit audio analytics events
+ * const response = await fetch('/api/audio/analytics', {
+ *   method: 'POST',
+ *   body: JSON.stringify({ events: [...], sessionId: 'abc123' })
+ * });
+ * ```
+ * 
+ * @see {@link https://nextjs.org/docs/app/building-your-application/routing/route-handlers}
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -41,7 +56,22 @@ interface AnalyticsRequest {
   timestamp: string;
 }
 
-export async function POST(request: NextRequest) {
+/**
+ * Handle audio analytics event submission
+ * 
+ * Processes audio player analytics events including play, pause, seek, volume changes,
+ * and completion events with comprehensive validation and processing.
+ * 
+ * @param request - The incoming request with analytics events
+ * @returns NextResponse with processing results and analytics summary
+ * 
+ * @example
+ * ```tsx
+ * const response = await POST(request);
+ * // Returns: { success: true, processedEvents: 5, sessionId: 'abc123' }
+ * ```
+ */
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const body: AnalyticsRequest = await request.json();
     const headersList = await headers();
@@ -127,7 +157,20 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+/**
+ * Handle audio analytics API information requests
+ * 
+ * Returns API documentation and available endpoints for the audio analytics service.
+ * 
+ * @returns NextResponse with API information and documentation
+ * 
+ * @example
+ * ```tsx
+ * const info = await GET();
+ * // Returns: { message: 'Audio Analytics API', version: '1.0.0', endpoints: {...} }
+ * ```
+ */
+export async function GET(): Promise<NextResponse> {
   // Return analytics summary (in production, fetch from database)
   return NextResponse.json({
     message: 'Audio Analytics API',

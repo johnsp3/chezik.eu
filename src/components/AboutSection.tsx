@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 interface AboutSectionProps {
-  mounted: boolean;
+  className?: string;
 }
 
 const AboutSection: React.FC<AboutSectionProps> = () => {
@@ -67,6 +67,7 @@ const AboutSection: React.FC<AboutSectionProps> = () => {
 
   return (
     <section id="about" className="section about-section">
+      <div id="section-about" className="anchor-marker"></div>
       <div className="container">
         {/* Section Header */}
         <div className="section-header">
@@ -86,7 +87,7 @@ const AboutSection: React.FC<AboutSectionProps> = () => {
         <div className="about-content">
           {/* Main Story */}
           <div className="story-section">
-            <div className="story-text">
+            <div className="story-card">
               <h3 className="story-title">About Me</h3>
               <p className="story-paragraph">
                 From those early days of picking up my first guitar to hearing my songs on the radio, it&apos;s been an incredible ride of constant growth and discovery. Rock music gave me my foundation, but I found myself drawn to writing as another way to share what I&apos;ve learned along the way.

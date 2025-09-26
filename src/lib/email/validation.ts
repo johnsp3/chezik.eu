@@ -85,6 +85,10 @@ export function validateEmail(email: string): EmailValidationResult {
 
   // Extract domain
   const domain = trimmedEmail.split('@')[1];
+  if (!domain) {
+    result.errors.push('Email domain is required');
+    return result;
+  }
   result.domain = domain;
 
   // Domain validation

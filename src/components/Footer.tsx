@@ -11,7 +11,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Music, BookOpen } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const [currentYear, setCurrentYear] = useState(2024);
@@ -59,76 +58,6 @@ const Footer: React.FC = () => {
     <>
       <footer className="footer">
         <div className="container">
-          {/* Main Footer Content */}
-          <div className="footer-content">
-            {/* Brand Section */}
-            <div className="footer-brand">
-              <div className="brand-logo">
-                <span className="logo-text">John Chezik</span>
-              </div>
-              <p className="brand-description">
-                Platinum-selling songwriter-singer, guitar player and published author with 6 albums and 2 books 
-                spanning decades of creating music and literature.
-              </p>
-              <div className="brand-stats">
-                <div className="stat">
-                  <Music size={16} />
-                  <span>6 Albums</span>
-                </div>
-                <div className="stat">
-                  <BookOpen size={16} />
-                  <span>2 Books</span>
-                </div>
-              </div>
-            </div>
-            
-            {/* Quick Links */}
-            <div className="footer-section">
-              <h3 className="section-title">Quick Links</h3>
-              <ul className="link-list">
-                {quickLinks.map((link, index) => (
-                  <li key={index}>
-                    <a 
-                      href={link.href} 
-                      onClick={(e) => {
-                        e.preventDefault();
-                        scrollToSection(link.href);
-                      }}
-                      className="footer-link"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            {/* Latest Work */}
-            <div className="footer-section">
-              <h3 className="section-title">Latest Work</h3>
-              <div className="latest-items">
-                <div className="latest-item">
-                  <div className="item-icon music-icon">
-                    <Music size={14} />
-                  </div>
-                  <div className="item-content">
-                    <div className="item-title">Don&apos;t Say It&apos;s Over</div>
-                    <div className="item-meta">Album • 2025</div>
-                  </div>
-                </div>
-                <div className="latest-item">
-                  <div className="item-icon book-icon">
-                    <BookOpen size={14} />
-                  </div>
-                  <div className="item-content">
-                    <div className="item-title">The Alpha Code</div>
-                    <div className="item-meta">Book • 2024</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
           {/* Footer Bottom */}
           <div className="footer-bottom">
             <div className="footer-bottom-content">
@@ -136,9 +65,26 @@ const Footer: React.FC = () => {
                 <p>© {currentYear} John Chezik. All rights reserved.</p>
               </div>
               
+              {/* Quick Links */}
+              <div className="footer-quick-links">
+                {quickLinks.map((link, index) => (
+                  <a 
+                    key={index}
+                    href={link.href} 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(link.href);
+                    }}
+                    className="footer-link-small"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+              
               <div className="footer-links">
-                <button className="footer-link-small" onClick={openPrivacyPolicy}>Privacy Policy</button>
-                <button className="footer-link-small" onClick={openTermsOfService}>Terms of Service</button>
+                <button className="footer-link-small" onClick={openPrivacyPolicy}>Privacy</button>
+                <button className="footer-link-small" onClick={openTermsOfService}>Terms</button>
               </div>
             </div>
           </div>

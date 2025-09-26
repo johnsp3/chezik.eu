@@ -111,8 +111,8 @@ export interface ApiResponse<T = unknown> {
 export interface ApiError {
   code: string;
   message: string;
-  details?: Record<string, unknown>;
-  field?: string;
+  details?: Record<string, unknown> | undefined;
+  field?: string | undefined;
 }
 
 /**
@@ -135,9 +135,9 @@ export interface SubscriptionRequest {
 export interface UnsubscriptionRequest {
   email: string;
   token: string;
-  reason?: string;
-  ip_address?: string;
-  user_agent?: string;
+  reason?: string | undefined;
+  ip_address?: string | undefined;
+  user_agent?: string | undefined;
 }
 
 /**
@@ -300,6 +300,66 @@ export interface SecurityConfig {
   require_verification: boolean;
   allowed_domains?: string[];
   blocked_domains?: string[];
+}
+
+// ============================================================================
+// EMAIL PROVIDER TYPES
+// ============================================================================
+
+/**
+ * Contact form data interface
+ */
+export interface ContactFormData {
+  name: string;
+  email: string;
+  message: string;
+  subject?: string;
+}
+
+/**
+ * Newsletter signup data interface
+ */
+export interface NewsletterSignupData {
+  email: string;
+  name?: string;
+  preferences?: string[];
+  source?: string;
+}
+
+/**
+ * Email template structure
+ * Standard email template format
+ */
+export interface EmailTemplate {
+  subject: string;
+  html: string;
+  text: string;
+}
+
+/**
+ * Email send result
+ * Result of email sending operation
+ */
+export interface EmailSendResult {
+  success: boolean;
+  messageId?: string | undefined;
+  error?: string | undefined;
+  provider: string;
+  duration: number;
+  retries: number;
+}
+
+/**
+ * Email provider configuration
+ * Configuration for email providers
+ */
+export interface EmailProviderConfig {
+  to: string[];
+  cc?: string[];
+  bcc?: string[];
+  replyTo?: string;
+  headers?: Record<string, string>;
+  metadata?: Record<string, unknown>;
 }
 
 // ============================================================================

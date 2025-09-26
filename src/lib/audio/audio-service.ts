@@ -183,7 +183,7 @@ export class AudioService {
     try {
       this.state.isLoading = true;
       this.state.hasError = false;
-      this.state.errorMessage = undefined;
+      delete this.state.errorMessage;
       this.notifyStateChange();
       
       const startTime = performance.now();
@@ -322,7 +322,7 @@ export class AudioService {
         message: `HLS streaming error: ${data.details}`,
         details: data,
         timestamp: new Date(),
-        trackId: this.state.currentTrack?.id
+        ...(this.state.currentTrack?.id && { trackId: this.state.currentTrack.id })
       });
     });
     
@@ -485,7 +485,7 @@ export class AudioService {
           message: 'Failed to play audio',
           details: error instanceof Error ? error.message : String(error),
           timestamp: new Date(),
-          trackId: this.state.currentTrack?.id
+          ...(this.state.currentTrack?.id && { trackId: this.state.currentTrack.id })
         });
       }
     }
@@ -1131,7 +1131,7 @@ export class AudioService {
       message: `Audio error: ${error.error?.message || 'Unknown error'}`,
       details: error.error,
       timestamp: new Date(),
-      trackId: this.state.currentTrack?.id
+      ...(this.state.currentTrack?.id && { trackId: this.state.currentTrack.id })
     });
   };
   

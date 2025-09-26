@@ -9,6 +9,8 @@
  * @created 2024
  */
 
+import 'server-only';
+
 import { NextRequest, NextResponse } from 'next/server';
 
 // ============================================================================
@@ -157,7 +159,7 @@ function getClientIP(request: NextRequest): string {
   
   if (cfConnectingIP) return cfConnectingIP;
   if (realIP) return realIP;
-  if (forwardedFor) return forwardedFor.split(',')[0].trim();
+  if (forwardedFor) return (forwardedFor.split(',')[0] ?? forwardedFor).trim();
   
   return 'unknown';
 }
@@ -177,10 +179,15 @@ export function validateRequestSecurity(request: NextRequest): {
   const url = request.url;
   const userAgent = request.headers.get('user-agent') || '';
   
-  // Block known bad user agents
+  // Block known bad user agents (but allow curl for development)
   const badUserAgents = [
-    'bot', 'crawler', 'spider', 'scraper', 'curl', 'wget', 'python-requests'
+    'bot', 'crawler', 'spider', 'scraper', 'wget', 'python-requests'
   ];
+  
+  // Only block curl in production
+  if (process.env.NODE_ENV === 'production' && userAgent.toLowerCase().includes('curl')) {
+    return { valid: false, reason: 'Suspicious user agent' };
+  }
   
   if (badUserAgents.some(bad => userAgent.toLowerCase().includes(bad))) {
     return { valid: false, reason: 'Suspicious user agent' };

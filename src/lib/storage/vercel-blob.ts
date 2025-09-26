@@ -9,6 +9,8 @@
  * @created 2024
  */
 
+import 'server-only';
+
 import { put, del, list, head } from '@vercel/blob';
 import type { EmailSubscription } from '@/lib/email/types';
 import type { AudioAnalyticsEvent } from '@/types/audio';

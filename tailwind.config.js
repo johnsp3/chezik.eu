@@ -6,6 +6,22 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    // Responsive breakpoints - Mobile-first approach
+    screens: {
+      'xs': '320px',   // Extra small devices (phones)
+      'sm': '640px',   // Small devices (large phones)
+      'md': '768px',   // Medium devices (tablets)
+      'lg': '1024px',  // Large devices (desktops)
+      'xl': '1280px',  // Extra large devices (large desktops)
+      '2xl': '1536px', // 2X large devices (larger desktops)
+      // Container queries support (when available)
+      '@xs': '320px',
+      '@sm': '640px',
+      '@md': '768px',
+      '@lg': '1024px',
+      '@xl': '1280px',
+      '@2xl': '1536px',
+    },
     extend: {
       // Custom color palette matching your current design
       colors: {
@@ -22,8 +38,8 @@ module.exports = {
           900: '#1e3a8a',
         },
         accent: {
-          primary: '#007aff',
-          hover: '#0056b3',
+          primary: '#0066cc',
+          hover: '#004499',
         },
         glass: {
           bg: 'rgba(255, 255, 255, 0.05)',
@@ -31,8 +47,8 @@ module.exports = {
         },
         text: {
           primary: '#ffffff',
-          secondary: '#a0a0a0',
-          tertiary: '#666666',
+          secondary: '#cccccc',
+          tertiary: '#999999',
         },
         bg: {
           elevated: 'rgba(255, 255, 255, 0.1)',
@@ -113,10 +129,46 @@ module.exports = {
         'slide-in-up': 'slide-in-up 0.6s ease-out',
         'pulse-glow': 'pulse-glow 2s infinite',
       },
+      
+      // Responsive utilities
+      spacing: {
+        'safe-top': 'env(safe-area-inset-top)',
+        'safe-bottom': 'env(safe-area-inset-bottom)',
+        'safe-left': 'env(safe-area-inset-left)',
+        'safe-right': 'env(safe-area-inset-right)',
+      },
+      
+      // Touch target sizes (minimum 44x44px for accessibility)
+      minHeight: {
+        'touch': '44px',
+      },
+      minWidth: {
+        'touch': '44px',
+      },
+      
+      // Container queries support with proper max-width constraints
+      container: {
+        center: true,
+        padding: {
+          DEFAULT: '1rem',
+          sm: '1.5rem',
+          lg: '2rem',
+          xl: '2.5rem',
+          '2xl': '3rem',
+        },
+        screens: {
+          sm: '640px',
+          md: '768px',
+          lg: '1024px',
+          xl: '1280px',
+          '2xl': '1600px', // Prevents stretching on very wide screens (40"+ monitors)
+        },
+      },
     },
   },
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
+    require('@tailwindcss/container-queries'),
   ],
 };

@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+
+# Production build
+.next/
+out/
+build/
+dist/
+
+# Environment files
+.env*
+
+# Logs
+*.log
+
+# Cache
+.cache/
+.parcel-cache/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+
+# Package files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Generated files
+*.tsbuildinfo
+.eslintcache
+
+# Public assets (don't format images, etc.)
+public/
+
+# Documentation that should preserve formatting
+*.md

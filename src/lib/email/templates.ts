@@ -8,9 +8,9 @@ interface ContactFormData {
 
 interface NewsletterSignupData {
   email: string;
-  name?: string;
-  preferences?: string[];
-  source?: string;
+  name?: string | undefined;
+  preferences?: string[] | undefined;
+  source?: string | undefined;
 }
 
 interface EmailTemplate {
@@ -36,7 +36,21 @@ function getBaseUrl(): string {
   return process.env.NEXT_PUBLIC_BASE_URL || 'https://chezik.eu';
 }
 
-// Generate secure tokens for unsubscribe and preferences links
+/**
+ * Generate secure unsubscribe token for email links
+ * 
+ * Creates a cryptographically secure token for unsubscribe links
+ * that includes email, operation type, and timestamp for security.
+ * 
+ * @param email - Email address to generate token for
+ * @returns Secure unsubscribe token
+ * 
+ * @example
+ * ```typescript
+ * const token = generateUnsubscribeToken('user@example.com');
+ * const unsubscribeUrl = `${baseUrl}/unsubscribe?email=${email}&token=${token}`;
+ * ```
+ */
 export function generateUnsubscribeToken(email: string): string {
   const secret = process.env.UNSUBSCRIBE_SECRET || "default-secret-key";
   const timestamp = Math.floor(Date.now() / (1000 * 60 * 60 * 24)); // Daily rotation
@@ -44,6 +58,21 @@ export function generateUnsubscribeToken(email: string): string {
   return createHash('sha256').update(data + secret).digest('hex').substring(0, 16);
 }
 
+/**
+ * Generate secure preferences token for email links
+ * 
+ * Creates a cryptographically secure token for email preferences links
+ * that includes email, operation type, and timestamp for security.
+ * 
+ * @param email - Email address to generate token for
+ * @returns Secure preferences token
+ * 
+ * @example
+ * ```typescript
+ * const token = generatePreferencesToken('user@example.com');
+ * const preferencesUrl = `${baseUrl}/preferences?email=${email}&token=${token}`;
+ * ```
+ */
 export function generatePreferencesToken(email: string): string {
   const secret = process.env.PREFERENCES_SECRET || "default-secret-key";
   const timestamp = Math.floor(Date.now() / (1000 * 60 * 60 * 24)); // Daily rotation
@@ -51,6 +80,25 @@ export function generatePreferencesToken(email: string): string {
   return createHash('sha256').update(data + secret).digest('hex').substring(0, 16);
 }
 
+/**
+ * Generate contact confirmation email template
+ * 
+ * Creates a professional HTML and text email template for contact form
+ * confirmations. Includes responsive design and accessibility features.
+ * 
+ * @param data - Contact form data including name, email, subject, and message
+ * @returns Email template with subject, HTML, and text content
+ * 
+ * @example
+ * ```typescript
+ * const template = generateContactConfirmationEmail({
+ *   name: 'John Doe',
+ *   email: 'john@example.com',
+ *   subject: 'Inquiry about music',
+ *   message: 'I would like to know more about your albums.'
+ * });
+ * ```
+ */
 export function generateContactConfirmationEmail(
   data: ContactFormData,
 ): EmailTemplate {
@@ -174,6 +222,26 @@ If you did not contact us, please ignore this email.
   return { subject, html, text };
 }
 
+/**
+ * Generate contact notification email template
+ * 
+ * Creates a professional HTML and text email template for internal
+ * notifications when someone submits a contact form. Includes all
+ * contact details and quick action links.
+ * 
+ * @param data - Contact form data including name, email, subject, and message
+ * @returns Email template with subject, HTML, and text content
+ * 
+ * @example
+ * ```typescript
+ * const template = generateContactNotificationEmail({
+ *   name: 'John Doe',
+ *   email: 'john@example.com',
+ *   subject: 'Inquiry about music',
+ *   message: 'I would like to know more about your albums.'
+ * });
+ * ```
+ */
 export function generateContactNotificationEmail(
   data: ContactFormData,
 ): EmailTemplate {
@@ -304,6 +372,26 @@ This notification was sent from your website contact form.
   return { subject, html, text };
 }
 
+/**
+ * Generate newsletter welcome email template
+ * 
+ * Creates a comprehensive welcome email template for new newsletter
+ * subscribers. Includes feature highlights, upcoming content previews,
+ * and proper unsubscribe/preferences links.
+ * 
+ * @param data - Newsletter signup data including email, name, and preferences
+ * @returns Email template with subject, HTML, and text content
+ * 
+ * @example
+ * ```typescript
+ * const template = generateNewsletterWelcomeEmail({
+ *   email: 'user@example.com',
+ *   name: 'John Doe',
+ *   preferences: ['albums', 'books'],
+ *   source: 'website'
+ * });
+ * ```
+ */
 export function generateNewsletterWelcomeEmail(
   data: NewsletterSignupData,
 ): EmailTemplate {

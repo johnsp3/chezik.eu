@@ -1,12 +1,25 @@
 /**
  * Audio Streaming API Route
  * 
- * Provides HLS streaming for audio files with edge optimization.
- * Supports adaptive bitrate streaming and secure access control.
+ * Provides HLS streaming for audio files with edge optimization and comprehensive
+ * performance monitoring. Supports adaptive bitrate streaming, secure access control,
+ * and proper caching headers for optimal delivery.
+ * 
+ * @fileoverview Audio streaming API with edge optimization and performance monitoring
  * 
  * @author John Chezik
- * @version 1.0.0
+ * @version 2.0.0
  * @created 2024
+ * @updated 2024
+ * 
+ * @example
+ * ```tsx
+ * // Stream audio track by ID
+ * const response = await fetch('/api/audio/stream/1');
+ * // Returns: Redirect to audio file with proper headers
+ * ```
+ * 
+ * @see {@link https://nextjs.org/docs/app/building-your-application/routing/route-handlers}
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -56,10 +69,26 @@ const audioFiles = {
   }
 };
 
+/**
+ * Handle audio streaming requests
+ * 
+ * Processes audio streaming requests by track ID, validates the track exists,
+ * and returns appropriate streaming response with proper headers and caching.
+ * 
+ * @param request - The incoming request object
+ * @param params - Route parameters containing the track ID
+ * @returns NextResponse with audio streaming data or error
+ * 
+ * @example
+ * ```tsx
+ * const response = await handleAudioStream(request, { params: { id: '1' } });
+ * // Returns: Redirect to audio file with streaming headers
+ * ```
+ */
 async function handleAudioStream(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
-) {
+): Promise<NextResponse> {
   try {
     const resolvedParams = await params;
     const trackId = parseInt(resolvedParams.id);
@@ -120,10 +149,26 @@ async function handleAudioStream(
   }
 }
 
+/**
+ * Handle audio streaming HEAD requests
+ * 
+ * Processes HEAD requests for audio streaming to return metadata and headers
+ * without the actual audio content, useful for preflight checks.
+ * 
+ * @param request - The incoming HEAD request object
+ * @param params - Route parameters containing the track ID
+ * @returns NextResponse with audio metadata headers or error
+ * 
+ * @example
+ * ```tsx
+ * const response = await handleAudioStreamHEAD(request, { params: { id: '1' } });
+ * // Returns: Headers with audio metadata
+ * ```
+ */
 async function handleAudioStreamHEAD(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
-) {
+): Promise<NextResponse> {
   try {
     const resolvedParams = await params;
     const trackId = parseInt(resolvedParams.id);
@@ -151,7 +196,21 @@ async function handleAudioStreamHEAD(
   }
 }
 
-export async function OPTIONS() {
+/**
+ * Handle CORS preflight requests for audio streaming
+ * 
+ * Returns appropriate CORS headers for audio streaming requests to support
+ * cross-origin requests from web applications.
+ * 
+ * @returns NextResponse with CORS headers
+ * 
+ * @example
+ * ```tsx
+ * const response = await OPTIONS();
+ * // Returns: CORS headers for audio streaming
+ * ```
+ */
+export async function OPTIONS(): Promise<NextResponse> {
   return new NextResponse(null, {
     status: 200,
     headers: {

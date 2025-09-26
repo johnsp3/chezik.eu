@@ -27,7 +27,7 @@ import {
 } from 'lucide-react';
 
 interface ContactSectionProps {
-  mounted: boolean;
+  className?: string;
 }
 
 const ContactSection: React.FC<ContactSectionProps> = () => {
@@ -48,7 +48,10 @@ const ContactSection: React.FC<ContactSectionProps> = () => {
   const [currentUrl, setCurrentUrl] = useState('');
 
   useEffect(() => {
-    setCurrentUrl(window.location.href);
+    // Only run on client side to avoid hydration mismatches
+    if (typeof window !== 'undefined') {
+      setCurrentUrl(window.location.href);
+    }
   }, []);
 
   const contactInfo = [
@@ -228,6 +231,7 @@ const ContactSection: React.FC<ContactSectionProps> = () => {
 
   return (
     <section id="contact" className="section contact-section">
+      <div id="section-contact" className="anchor-marker"></div>
       <div className="container">
         {/* Section Header */}
         <div className="section-header">
@@ -333,7 +337,7 @@ const ContactSection: React.FC<ContactSectionProps> = () => {
                 </div>
                 
                 {submitStatus && (
-                  <div className={`submit-status ${submitStatus.includes('Thank you') ? 'success' : 'error'}`}>
+                  <div className={`submit-status ${submitStatus.includes('Thank you') ? 'success' : 'error'}`} suppressHydrationWarning>
                     {submitStatus}
                   </div>
                 )}
@@ -399,7 +403,7 @@ const ContactSection: React.FC<ContactSectionProps> = () => {
                 </div>
                 
                 {newsletterStatus !== 'idle' && newsletterMessage && (
-                  <div className={`status-message ${newsletterStatus === 'success' ? 'success' : 'error'}`}>
+                  <div className={`status-message ${newsletterStatus === 'success' ? 'success' : 'error'}`} suppressHydrationWarning>
                     <div className="status-icon">
                       {newsletterStatus === 'success' ? (
                         <CheckCircle size={16} />

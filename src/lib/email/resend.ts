@@ -1,3 +1,4 @@
+import 'server-only';
 import { Resend } from "resend";
 // Define types locally since they're not in the types file
 interface ContactFormData {
@@ -9,9 +10,9 @@ interface ContactFormData {
 
 interface NewsletterSignupData {
   email: string;
-  name?: string;
-  preferences?: string[];
-  source?: string;
+  name?: string | undefined;
+  preferences?: string[] | undefined;
+  source?: string | undefined;
 }
 
 interface ResendResponse {

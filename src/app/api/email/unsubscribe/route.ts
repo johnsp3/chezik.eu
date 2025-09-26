@@ -1,11 +1,27 @@
 /**
  * Email Unsubscribe API Route
  * 
- * Handles email unsubscription requests with proper validation and security.
+ * Handles email unsubscription requests with comprehensive validation,
+ * security measures, and proper error handling. Supports graceful
+ * unsubscription with optional reason tracking.
+ * 
+ * @fileoverview Email unsubscribe API with comprehensive validation and security
  * 
  * @author John Chezik
- * @version 1.0.0
+ * @version 2.0.0
  * @created 2024
+ * @updated 2024
+ * 
+ * @example
+ * ```tsx
+ * // Unsubscribe from emails
+ * const response = await fetch('/api/email/unsubscribe', {
+ *   method: 'POST',
+ *   body: JSON.stringify({ email: 'user@example.com', token: 'abc123', reason: 'too_frequent' })
+ * });
+ * ```
+ * 
+ * @see {@link https://nextjs.org/docs/app/building-your-application/routing/route-handlers}
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -20,7 +36,22 @@ interface UnsubscribeRequest {
   reason?: string;
 }
 
-export async function POST(request: NextRequest) {
+/**
+ * Handle email unsubscription requests
+ * 
+ * Processes email unsubscription requests with comprehensive validation,
+ * security measures, and proper error handling. Supports optional reason tracking.
+ * 
+ * @param request - The incoming request with unsubscription data
+ * @returns NextResponse with unsubscription results or error
+ * 
+ * @example
+ * ```tsx
+ * const response = await POST(request);
+ * // Returns: { success: true, message: 'Successfully unsubscribed' }
+ * ```
+ */
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const body: UnsubscribeRequest = await request.json();
     const headersList = await headers();
@@ -102,7 +133,20 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+/**
+ * Handle email unsubscribe API information requests
+ * 
+ * Returns API documentation and available endpoints for the email unsubscribe service.
+ * 
+ * @returns NextResponse with API information and documentation
+ * 
+ * @example
+ * ```tsx
+ * const info = await GET();
+ * // Returns: { message: 'Email Unsubscribe API', version: '1.0.0', endpoints: {...} }
+ * ```
+ */
+export async function GET(): Promise<NextResponse> {
   return NextResponse.json({
     message: 'Email Unsubscribe API',
     version: '1.0.0',
